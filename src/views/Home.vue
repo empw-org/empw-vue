@@ -144,7 +144,7 @@
                   <a href="#" class="contact-us-link">
                     <i
                       class="fab fa-whatsapp"
-                      style="font-weight:600; font-size: 18px;"
+                      style="font-weight: 600; font-size: 18px;"
                     ></i>
                   </a>
 
@@ -192,8 +192,8 @@ export default {
   computed: {
     currentYear() {
       return new Date().getFullYear();
-    }
-  }
+    },
+  },
 };
 </script>
 
