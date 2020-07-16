@@ -1,5 +1,5 @@
 const api = {
-  BASE_URI: "http://localhost:3000",
+  BASE_URI: "https://api-empw.herokuapp.com",
   headers: {
     "Content-Type": "application/json",
   },
