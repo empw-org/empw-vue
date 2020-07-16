@@ -97,23 +97,26 @@
       <div class="contact-us-section">
         <div class="contact-us-form">
           <div class="form-wrapper">
-            <form id="contact-us-form">
+            <form id="contact-us-form" @submit.prevent="onSubmit">
               <input
                 type="text"
                 id="name"
                 name="name"
+                v-model="name"
                 placeholder="Name"
                 required
               />
               <input
-                type="text"
+                type="email"
                 id="email"
                 name="email"
+                v-model="email"
                 placeholder="Email"
                 required
               />
               <textarea
                 name="message"
+                v-model="message"
                 placeholder="Message..."
                 rows="10"
                 required
@@ -188,7 +191,28 @@
 </template>
 
 <script>
+import api from "@/services/api.js";
 export default {
+  data() {
+    return {
+      email: "",
+      name: "",
+      message: "",
+    };
+  },
+  methods: {
+    onSubmit() {
+      const { email, name, message } = this;
+      api
+        .contactUs({ email, name, message, from: "WEB" })
+        .then((r) => {
+          console.log(r);
+          return r.json();
+        })
+        .then(console.log)
+        .catch(console.error);
+    },
+  },
   computed: {
     currentYear() {
       return new Date().getFullYear();
@@ -197,14 +221,23 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 /*Header-Info*/
+.gradient {
+  background: linear-gradient(to right, #00bdce 6%, #0071d2);
+}
+
+.gradient-reverse {
+  background: linear-gradient(to left, #00bdce 6%, #0071d2);
+}
+
 .landing-page-header {
   position: relative;
   width: 100%;
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
+  .gradient();
   overflow: hidden;
 }
+
 .landing-page-header .wave {
   position: absolute;
   bottom: 0;
@@ -214,6 +247,7 @@ export default {
   background: url("../assets/wave.png");
   background-size: 100% 100px;
 }
+
 .title-and-brief-intro {
   margin-top: 20px;
   color: white;
@@ -400,7 +434,7 @@ input#email {
 }
 
 button#submit {
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
+  .gradient();
   border: 2px solid white;
   color: white;
   border-radius: 2em;
@@ -412,8 +446,10 @@ button#submit {
   transition: all 0.3s;
 }
 
-button#submit:hover {
+button#submit:hover,
+button#contact-us:hover {
   cursor: pointer;
+  .gradient-reverse();
 }
 
 button#submit i {
@@ -447,7 +483,7 @@ button#submit:hover span {
 }
 .landing-page-footer {
   padding: 4% 10% 2% 10%;
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
+  .gradient();
   color: white;
 }
 
@@ -468,7 +504,7 @@ button#submit:hover span {
   padding: 0 10px;
   border-radius: 25px;
   overflow: hidden;
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
+  .gradient();
 }
 
 .contact-us-text {
@@ -517,7 +553,7 @@ button#submit:hover span {
 }
 
 .contact-us-link i {
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
+  .gradient();
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -526,7 +562,7 @@ button#submit:hover span {
   border: none;
 }
 .contact-us-buttons:hover .contact-us-overlay {
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
+  .gradient();
 }
 
 .contact-us-buttons:hover .contact-us-link {
@@ -588,7 +624,7 @@ button#submit:hover span {
 .our-services-section {
   position: relative;
   width: 100%;
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
+  .gradient();
   overflow: hidden;
 }
 
