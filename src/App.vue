@@ -19,4 +19,11 @@ export default {
   box-sizing: border-box;
   font-family: "Josefin sans", sans-serif;
 }
+
+html,
+body,
+#app {
+  height: 100%;
+  width: 100%;
+}
 </style>
