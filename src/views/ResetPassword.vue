@@ -30,7 +30,7 @@
               <input
                 name="password-confirmation"
                 type="password"
-                v-model="password_confirmation"
+                v-model="passwordConfirmation"
               />
               <div class="errors">
                 <span>{{ errors[0] }}</span>
@@ -52,10 +52,11 @@
   </div>
 </template>
 
-<script>
-import api from "@/services/api.js";
+<script lang="ts">
+import api from "@/services/api";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import { required, min } from "vee-validate/dist/rules";
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 extend("min", {
   ...min,
@@ -69,41 +70,41 @@ extend("required", {
 
 extend("password", {
   params: ["target"],
-  validate(value, { target }) {
+  validate(value, { target }: any) {
     return value === target;
   },
   message: "Password confirmation does not match",
 });
 
-export default {
-  data() {
-    return {
-      token: this.$route.query.token,
-      password: "",
-      password_confirmation: "",
-      errors: "",
-      state: "",
-      response: "",
-    };
-  },
-  methods: {
-    onSubmit() {
-      const { token, password } = this;
-      api
-        .changePassword({ token, password })
-        .then((r) => {
-          console.log(r);
-          return r.json();
-        })
-        .then(console.log)
-        .catch(console.error);
-    },
-  },
+@Component({
   components: {
     ValidationProvider,
     ValidationObserver,
   },
-};
+})
+export default class ResetPassword extends Vue {
+  password = "";
+  passwordConfirmation = "";
+  errors = "";
+  state = "";
+  response = "";
+
+  get token(): string | (string | null)[] {
+    return this.$route.query.token;
+  }
+
+  onSubmit(): void {
+    const { token, password } = this;
+    api
+      .changePassword({ token, password })
+      .then((r) => {
+        console.log(r);
+        return r.json();
+      })
+      .then(console.log)
+      .catch(console.error);
+  }
+}
 </script>
 
 <style lang="less" scoped>

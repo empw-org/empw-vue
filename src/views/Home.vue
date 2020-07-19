@@ -190,35 +190,32 @@
   </div>
 </template>
 
-<script>
-import api from "@/services/api.js";
-export default {
-  data() {
-    return {
-      email: "",
-      name: "",
-      message: "",
-    };
-  },
-  methods: {
-    onSubmit() {
-      const { email, name, message } = this;
-      api
-        .contactUs({ email, name, message, from: "WEB" })
-        .then((r) => {
-          console.log(r);
-          return r.json();
-        })
-        .then(console.log)
-        .catch(console.error);
-    },
-  },
-  computed: {
-    currentYear() {
-      return new Date().getFullYear();
-    },
-  },
-};
+<script lang="ts">
+import api from "@/services/api";
+import { Component, Vue } from "vue-property-decorator";
+
+@Component
+export default class Home extends Vue {
+  email = "";
+  name = "";
+  message = "";
+
+  onSubmit(): void {
+    const { email, name, message } = this;
+    api
+      .contactUs({ email, name, message, from: "WEB" })
+      .then((r) => {
+        console.log(r);
+        return r.json();
+      })
+      .then(console.log)
+      .catch(console.error);
+  }
+
+  get currentYear(): number {
+    return new Date().getFullYear();
+  }
+}
 </script>
 
 <style lang="less">
