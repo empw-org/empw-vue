@@ -5,7 +5,7 @@ const api = {
   },
   async post(endpoint: string, body: any) {
     return await fetch(this.BASE_URI + endpoint, {
-      method: "post",
+      method: "POST",
       headers: this.headers,
       body: JSON.stringify(body),
     });
@@ -15,19 +15,19 @@ const api = {
   },
   async delete(endpoint: string) {
     return await fetch(this.BASE_URI + endpoint, {
-      method: "delete",
+      method: "DELETE",
     });
   },
   async put(endpoint: string, body: any) {
     return await fetch(this.BASE_URI + endpoint, {
-      method: "put",
+      method: "PUT",
       headers: this.headers,
       body: JSON.stringify(body),
     });
   },
   async patch(endpoint: string, body: any) {
     return await fetch(this.BASE_URI + endpoint, {
-      method: "patch",
+      method: "PATCH",
       headers: this.headers,
       body: JSON.stringify(body),
     });
