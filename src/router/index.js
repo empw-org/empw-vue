@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import ResetPassword from "../views/ResetPassword.vue";
 import SignIn from "../views/SignIn.vue";
+import SignUp from "../views/SignUp.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/reset-password",
     name: "Reset Password",
     component: ResetPassword,
+  },
+  {
+    path: "/signup",
+    name: "Sign Up",
+    component: SignUp,
   },
 ];
 
