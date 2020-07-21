@@ -79,7 +79,6 @@ export default {
     color: white;
     margin: 10px 0 50px 0;
     font-size: 30pt;
-    font-family: "Kurale";
   }
 
   .form-card {
