@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <Navigation />
+    <NavigationBar />
     <router-view />
   </div>
 </template>
 
 <script>
-import Navigation from "./components/Navigation.vue";
+import NavigationBar from "./components/NavigationBar.vue";
 export default {
-  components: { Navigation },
+  components: { NavigationBar },
 };
 </script>
 

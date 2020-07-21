@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="landing-page-header">
+    <header class="landing-page-header">
       <div class="title-and-brief-intro">
         <img id="logo-text" src="@/assets/logo/empw-letters.png" alt="Logo" />
         <h1>Enhanced Management of Pure Water</h1>
@@ -12,14 +12,15 @@
       </div>
 
       <div class="wave"></div>
-    </div>
+    </header>
+
     <main>
       <section class="about-section">
         <div class="about-title">
           <h1>About</h1>
         </div>
         <div class="image-and-article-section">
-          <img src="@/assets/images/family-drinking.jpg" alt="" />
+          <img src="@/assets/images/family-drinking.jpg" alt />
           <article>
             <h1>Enhanced Management of Pure Water</h1>
 
@@ -68,7 +69,7 @@
           </div>
 
           <div class="our-service-card">
-            <img src="@/assets/icons/pay.svg" alt="" />
+            <img src="@/assets/icons/pay.svg" alt />
             <h1>Cheap Service</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
@@ -79,7 +80,7 @@
           </div>
 
           <div class="our-service-card">
-            <img src="@/assets/icons/rationalize.svg" alt="" />
+            <img src="@/assets/icons/rationalize.svg" alt />
             <h1>Help Save Water</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
@@ -169,7 +170,8 @@
         <a class="app-btn blu flex vert" href="#">
           <i class="fab fa-apple"></i>
           <p>
-            Available on the <br />
+            Available on the
+            <br />
             <span class="big-txt">App Store</span>
           </p>
         </a>
@@ -177,7 +179,8 @@
         <a class="app-btn blu flex vert" href="#">
           <i class="fab fa-google-play"></i>
           <p>
-            Get it on <br />
+            Get it on
+            <br />
             <span class="big-txt">Google Play</span>
           </p>
         </a>
@@ -555,6 +558,7 @@ button#submit:hover span {
 .contact-us-link i {
   .gradient();
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
