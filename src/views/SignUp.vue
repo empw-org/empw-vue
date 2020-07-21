@@ -7,32 +7,62 @@
         <div class="sign-up-fields-divisor">
           <div class="form-group">
             <label>Your name</label>
-            <input type="text" placeholder="Enter your name" />
+            <input
+              v-model="name"
+              name="name"
+              type="text"
+              placeholder="Enter your name"
+            />
           </div>
 
           <div class="form-group">
             <label>Your email</label>
-            <input type="email" placeholder="Enter your email" />
+            <input
+              v-model="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+            />
           </div>
 
           <div class="form-group">
             <label>Your phone</label>
-            <input type="tel" placeholder="Enter your phone number" />
+            <input
+              v-model="phone_number"
+              name="phone_number"
+              type="tel"
+              placeholder="Enter your phone number"
+            />
           </div>
 
           <div class="form-group">
             <label>Your SNN</label>
-            <input type="text" placeholder="Enter your SNN ID" />
+            <input
+              v-model="ssn"
+              name="ssn"
+              type="text"
+              placeholder="Enter your SNN ID"
+            />
           </div>
 
           <div class="form-group">
             <label>Your average salary</label>
-            <input type="text" placeholder="Enter your average salary" />
+            <input
+              v-model="salary"
+              name="salary"
+              type="text"
+              placeholder="Enter your average salary"
+            />
           </div>
 
           <div class="form-group">
             <label>Your password</label>
-            <input type="password" placeholder="Enter your password" />
+            <input
+              v-model="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+            />
           </div>
         </div>
 
@@ -47,14 +77,46 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import GradientButton from "@/components/GradientButton.vue";
+import api from "@/services/api";
+import { Component, Vue } from "vue-property-decorator";
 
-export default {
+@Component({
   components: {
     GradientButton,
   },
-};
+})
+export default class SignUp extends Vue {
+  name = "";
+  email = "";
+  phone_number = "";
+  ssn = "";
+  salary = "";
+  password = "";
+
+  onSubmit(): void {
+    const { name, email, phone_number, ssn, salary, password } = this;
+    const body = {
+      name,
+      email,
+      phone_number,
+      ssn,
+      salary,
+      password,
+    };
+    console.log(body);
+    api
+      .signup(body)
+      .then((r) => {
+        console.log(r);
+        return r.json();
+      })
+      .then(console.log)
+      .catch(console.error);
+    console.log("Submitting");
+  }
+}
 </script>
 
 <style scoped lang="less">
@@ -128,7 +190,7 @@ export default {
 
   .have-account-text {
     color: white;
-    margin-top: 15px;
+    margin: 15px 0;
 
     .sign-in-link {
       color: darken(@label-color, 20%);
