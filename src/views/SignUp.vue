@@ -3,7 +3,7 @@
     <h1 class="page-title">Sign up</h1>
 
     <div class="form-card">
-      <form id="sign-in-form" @submit.prevent="onSubmit">
+      <form id="sign-up-form" @submit.prevent="onSubmit">
         <div class="sign-up-fields-divisor">
           <div class="form-group">
             <label>Your name</label>
