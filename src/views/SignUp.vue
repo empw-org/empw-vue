@@ -1,27 +1,48 @@
 <template>
   <div class="gradient-container">
-    <h1 class="page-title">Sign in</h1>
+    <h1 class="page-title">Sign up</h1>
+
     <div class="form-card">
       <form id="sign-in-form" @submit.prevent="onSubmit">
-        <div class="form-group">
-          <label>Your email / phone number</label>
-          <input type="text" placeholder="Enter your email or phone number" />
-          <router-link to="/reset-password" class="forget-password-link">
-            Forget your password?
-          </router-link>
+        <div class="sign-up-fields-divisor">
+          <div class="form-group">
+            <label>Your name</label>
+            <input type="text" placeholder="Enter your name" />
+          </div>
+
+          <div class="form-group">
+            <label>Your email</label>
+            <input type="email" placeholder="Enter your email" />
+          </div>
+
+          <div class="form-group">
+            <label>Your phone</label>
+            <input type="tel" placeholder="Enter your phone number" />
+          </div>
+
+          <div class="form-group">
+            <label>Your SNN</label>
+            <input type="text" placeholder="Enter your SNN ID" />
+          </div>
+
+          <div class="form-group">
+            <label>Your average salary</label>
+            <input type="text" placeholder="Enter your average salary" />
+          </div>
+
+          <div class="form-group">
+            <label>Your password</label>
+            <input type="password" placeholder="Enter your password" />
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>Your password</label>
-          <input type="password" placeholder="Enter your password" />
-        </div>
-
-        <GradientButton type="submit">Sign in</GradientButton>
+        <GradientButton type="submit">Sign up</GradientButton>
       </form>
     </div>
-    <div class="no-account-text">
-      No account?
-      <router-link to="/signup" class="register-link">Register now</router-link>
+
+    <div class="have-account-text">
+      Already have account?
+      <router-link to="/signin" class="sign-in-link">Sign in now</router-link>
     </div>
   </div>
 </template>
@@ -56,16 +77,24 @@ export default {
 
   .page-title {
     color: white;
-    margin: 50px 0 70px 0;
+    margin: 10px 0 50px 0;
     font-size: 30pt;
+    font-family: "Kurale";
   }
 
   .form-card {
     background: white;
     padding: 35px;
     border-radius: 0.5rem;
-    width: 35%;
-    min-width: 350px;
+    width: 45%;
+    min-width: 450px;
+
+    .sign-up-fields-divisor {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      grid-column-gap: 15px;
+    }
 
     .form-group {
       margin: 30px 0;
@@ -96,22 +125,13 @@ export default {
         }
       }
     }
-
-    .forget-password-link {
-      text-decoration: none;
-      font-size: 9pt;
-      display: block;
-      text-align: right;
-      margin-top: 10px;
-      color: @label-color;
-    }
   }
 
-  .no-account-text {
+  .have-account-text {
     color: white;
     margin-top: 15px;
 
-    .register-link {
+    .sign-in-link {
       color: darken(@label-color, 20%);
     }
   }

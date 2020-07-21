@@ -1,32 +1,29 @@
 <template>
-  <header class="landing-page-header">
-    <nav class="landing-page-nav">
-      <div class="logo">
-        <img id="logo-image" src="@/assets/logo/logo.png" alt="Logo" />
-      </div>
+  <nav class="navbar">
+    <div class="logo">
+      <img id="logo-image" src="@/assets/logo/logo.png" alt="Logo" />
+    </div>
 
-      <div class="menus">
-        <ul class="menu-items">
-          <li><router-link to="/">Home</router-link></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Donate</a></li>
-          <li>
-            <router-link to="/signin">Sign In</router-link>
-          </li>
-          <li class="language">
-            <a href="#">
-              <img src="@/assets/icons/globe.svg" alt="Language" />
-              <div id="ar-language">ع</div>
-            </a>
-          </li>
-        </ul>
+    <div class="menus">
+      <ul class="menu-items">
+        <li><router-link to="/">Home</router-link></li>
+        <li><a href="#">Donate</a></li>
+        <li>
+          <router-link to="/signin">Sign In</router-link>
+        </li>
+        <li class="language">
+          <a href="#">
+            <img src="@/assets/icons/globe.svg" alt="Language" />
+            <div id="ar-language">ع</div>
+          </a>
+        </li>
+      </ul>
 
-        <div class="hamburger-icon">
-          <i class="fas fa-bars"></i>
-        </div>
+      <div class="hamburger-icon">
+        <i class="fas fa-bars"></i>
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
 </template>
 
 <script lang="ts">
@@ -37,28 +34,31 @@ import Component from "vue-class-component";
 export default class Navigation extends Vue {}
 </script>
 
-<style scoped>
-/*Header*/
-.landing-page-header {
-  position: relative;
-  width: 100%;
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
-  overflow: hidden;
-}
+<style scoped lang="less">
+@light-blue: #00bdce;
+@dark-blue: #0071d2;
+@header-height: 80px;
 
-.landing-page-nav {
+/*Header*/
+
+.navbar {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  position: relative;
+  width: 100%;
+  background: linear-gradient(to right, @light-blue 6%, @dark-blue);
+  overflow: hidden;
+  height: @header-height;
 }
 
 .logo {
-  padding: 3px 0 0 15px;
+  padding: 3px 0 3px 15px;
   display: flex;
   align-items: center;
 }
 
 .logo img {
-  width: 12%;
+  width: 20px;
   min-width: 60px;
   cursor: pointer;
 }
@@ -72,7 +72,7 @@ export default class Navigation extends Vue {}
 .menu-items {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   width: 100%;
   font-weight: bold;
   font-size: 20px;
@@ -82,12 +82,11 @@ export default class Navigation extends Vue {}
 .menu-items li {
   text-decoration: none;
   color: white;
-  opacity: 0.8;
+  font-size: 15pt;
 }
 
 .menu-items li:hover {
-  color: white;
-  opacity: 1;
+  color: darken(white, 10%);
 }
 
 .menu-items li a {
