@@ -109,7 +109,7 @@ export default {
 
   .no-account-text {
     color: white;
-    margin-top: 15px;
+    margin: 15px 0;
 
     .register-link {
       color: darken(@label-color, 20%);
