@@ -1,9 +1,16 @@
 <template>
-  <button><slot></slot></button>
+  <button :class="{ loading: isLoading }">
+    <slot></slot>
+  </button>
 </template>
 
-<script>
-export default {};
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
+
+@Component
+export default class GradientButton extends Vue {
+  @Prop({ default: false, type: Boolean }) isLoading!: boolean;
+}
 </script>
 
 <style scoped lang="less">
@@ -23,7 +30,7 @@ button {
   margin-top: 10px;
   transition: all 0.3s;
 
-  &:hover {
+  &:hover:not(.loading):not(:disabled) {
     cursor: pointer;
   }
 
@@ -35,5 +42,10 @@ button {
     opacity: 0.5;
     cursor: not-allowed;
   }
+}
+
+.loading {
+  opacity: 0.5;
+  cursor: wait;
 }
 </style>
