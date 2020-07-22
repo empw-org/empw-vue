@@ -3,70 +3,119 @@
     <h1 class="page-title">Sign up</h1>
 
     <div class="form-card">
+      <div class="errors-array-response">
+        <ValidationError v-for="(err, index) in responseErrors" :key="index">
+          * {{ err }}
+        </ValidationError>
+      </div>
+
       <form id="sign-up-form" @submit.prevent="onSubmit">
-        <div class="sign-up-fields-divisor">
-          <div class="form-group">
-            <label>Your name</label>
-            <input
-              v-model="name"
-              name="name"
-              type="text"
-              placeholder="Enter your name"
-            />
+        <ValidationObserver v-slot="{ invalid }">
+          <div class="sign-up-fields-divisor">
+            <div class="form-group">
+              <label>Your name</label>
+              <ValidationProvider name="Name" v-slot="{ errors }">
+                <input
+                  v-model="name"
+                  name="name"
+                  type="text"
+                  required
+                  minlength="5"
+                  placeholder="Enter your name"
+                />
+                <ValidationError> {{ errors[0] }} </ValidationError>
+              </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+              <label>Your email</label>
+              <ValidationProvider name="Email" v-slot="{ errors }">
+                <input
+                  v-model="email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Enter your email"
+                />
+                <ValidationError> {{ errors[0] }} </ValidationError>
+              </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+              <label>Your phone</label>
+              <ValidationProvider
+                name="Phone"
+                :rules="{ regex: /^01(0|1|2|5)[0-9]{8}$/ }"
+                v-slot="{ errors }"
+              >
+                <input
+                  v-model="phone_number"
+                  name="phone_number"
+                  type="tel"
+                  required
+                  placeholder="Enter your phone number"
+                />
+
+                <ValidationError> {{ errors[0] }} </ValidationError>
+              </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+              <label>Your SSN</label>
+              <ValidationProvider
+                name="SSN"
+                rules="digits:14"
+                v-slot="{ errors }"
+              >
+                <input
+                  v-model="ssn"
+                  name="ssn"
+                  type="text"
+                  placeholder="Enter your SSN ID"
+                  required
+                />
+
+                <ValidationError> {{ errors[0] }} </ValidationError>
+              </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+              <label>Your salary</label>
+              <ValidationProvider
+                name="Salary"
+                rules="required|integer|min_value:100|max_value:10000"
+                v-slot="{ errors }"
+              >
+                <input
+                  v-model="salary"
+                  name="salary"
+                  type="text"
+                  placeholder="Enter your salary"
+                />
+                <ValidationError> {{ errors[0] }} </ValidationError>
+              </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+              <label>Your password</label>
+              <ValidationProvider name="Password" v-slot="{ errors }">
+                <input
+                  v-model="password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  minlength="8"
+                  required
+                />
+                <ValidationError> {{ errors[0] }} </ValidationError>
+              </ValidationProvider>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>Your email</label>
-            <input
-              v-model="email"
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Your phone</label>
-            <input
-              v-model="phone_number"
-              name="phone_number"
-              type="tel"
-              placeholder="Enter your phone number"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Your SNN</label>
-            <input
-              v-model="ssn"
-              name="ssn"
-              type="text"
-              placeholder="Enter your SNN ID"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Your average salary</label>
-            <input
-              v-model="salary"
-              name="salary"
-              type="text"
-              placeholder="Enter your average salary"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Your password</label>
-            <input
-              v-model="password"
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-            />
-          </div>
-        </div>
-
-        <GradientButton type="submit">Sign up</GradientButton>
+          <GradientButton type="submit" :disabled="invalid"
+            >Sign up</GradientButton
+          >
+        </ValidationObserver>
       </form>
     </div>
 
@@ -78,12 +127,36 @@
 </template>
 
 <script lang="ts">
+import ValidationError from "@/components/ValidationError.vue";
 import GradientButton from "@/components/GradientButton.vue";
 import api from "@/services/api";
 import { Component, Vue } from "vue-property-decorator";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+import {
+  email,
+  regex,
+  length,
+  digits,
+  integer,
+  required,
+  min_value,
+  max_value,
+} from "vee-validate/dist/rules";
+
+extend("email", email);
+extend("regex", regex);
+extend("length", length);
+extend("digits", digits);
+extend("integer", integer);
+extend("required", required);
+extend("min_value", min_value);
+extend("max_value", max_value);
 
 @Component({
   components: {
+    ValidationProvider,
+    ValidationObserver,
+    ValidationError,
     GradientButton,
   },
 })
@@ -94,25 +167,36 @@ export default class SignUp extends Vue {
   ssn = "";
   salary = "";
   password = "";
+  responseMessage = "";
+  responseErrors: string[] = [];
 
   onSubmit(): void {
     const { name, email, phone_number, ssn, salary, password } = this;
     const body = {
       name,
       email,
-      phone_number,
+      phone_number: `+2${phone_number}`,
       ssn,
       salary,
       password,
     };
-    console.log(body);
     api
       .signup(body)
-      .then((r) => {
-        console.log(r);
-        return r.json();
+      .then(async (r) => {
+        const json = await r.json();
+
+        if (r.ok) {
+          // continue to phone validation
+          this.responseMessage = json.message;
+        } else {
+          this.responseErrors = [];
+          for (const e in json) {
+            const arr = json[e].map((err: string) => `${e} ${err}.`);
+            this.responseErrors.push(...arr);
+          }
+          // 500!
+        }
       })
-      .then(console.log)
       .catch(console.error);
     console.log("Submitting");
   }
@@ -128,6 +212,10 @@ export default class SignUp extends Vue {
 
 .gradient {
   background: linear-gradient(to right, @light-blue 6%, @dark-blue);
+}
+
+.errors {
+  color: red;
 }
 
 .gradient-container {
@@ -149,6 +237,7 @@ export default class SignUp extends Vue {
     border-radius: 0.5rem;
     width: 45%;
     min-width: 450px;
+    position: relative;
 
     .sign-up-fields-divisor {
       display: grid;
