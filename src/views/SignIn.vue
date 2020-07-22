@@ -2,21 +2,83 @@
   <div class="gradient-container">
     <h1 class="page-title">Sign in</h1>
     <div class="form-card">
-      <form id="sign-in-form" @submit.prevent="onSubmit">
-        <div class="form-group">
-          <label>Your email / phone number</label>
-          <input type="text" placeholder="Enter your email or phone number" />
-          <router-link to="/reset-password" class="forget-password-link">
-            Forget your password?
-          </router-link>
-        </div>
+      <div class="errors-array-response" v-if="responseError.length">
+        <ValidationError> * {{ responseError }} </ValidationError>
+      </div>
 
-        <div class="form-group">
-          <label>Your password</label>
-          <input type="password" placeholder="Enter your password" />
-        </div>
+      <!-- FORGET PASSWORD FORM -->
+      <form
+        id="forget-password-form"
+        @submit.prevent="onResetPassword"
+        v-if="isForgetPassword"
+      >
+        <ValidationObserver v-slot="{ invalid }">
+          <div class="form-group">
+            <label>Your email</label>
+            <ValidationProvider name="Email" v-slot="{ errors }">
+              <input
+                v-model="email"
+                name="email"
+                type="email"
+                required
+                placeholder="Enter your email"
+              />
+              <ValidationError> {{ errors[0] }} </ValidationError>
+            </ValidationProvider>
 
-        <GradientButton type="submit">Sign in</GradientButton>
+            <span
+              class="forget-password-link"
+              @click="isForgetPassword = false"
+            >
+              Login with your password?
+            </span>
+          </div>
+
+          <GradientButton type="submit" :disabled="invalid" :isLoading="loading"
+            >Reset password</GradientButton
+          >
+        </ValidationObserver>
+      </form>
+
+      <!-- SIGN IN FORM -->
+      <form id="sign-in-form" @submit.prevent="onLogin" v-else>
+        <ValidationObserver v-slot="{ invalid }">
+          <div class="form-group">
+            <label>Your email / phone number</label>
+            <ValidationProvider name="Email or Phone" v-slot="{ errors }">
+              <input
+                v-model="emailOrPhone"
+                name="emailOrPhone"
+                type="text"
+                required
+                placeholder="Enter your email or phone"
+              />
+              <ValidationError> {{ errors[0] }} </ValidationError>
+            </ValidationProvider>
+            <span class="forget-password-link" @click="isForgetPassword = true">
+              Forget your password?
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Your password</label>
+            <ValidationProvider name="Password" v-slot="{ errors }">
+              <input
+                v-model="password"
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                minlength="8"
+                required
+              />
+              <ValidationError> {{ errors[0] }} </ValidationError>
+            </ValidationProvider>
+          </div>
+
+          <GradientButton type="submit" :disabled="invalid" :isLoading="loading"
+            >Sign in</GradientButton
+          >
+        </ValidationObserver>
       </form>
     </div>
     <div class="no-account-text">
@@ -26,14 +88,66 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import ValidationError from "@/components/ValidationError.vue";
 import GradientButton from "@/components/GradientButton.vue";
+import api from "@/services/api";
+import { Component, Vue } from "vue-property-decorator";
+import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
 
-export default {
+extend("required", required);
+
+@Component({
   components: {
+    ValidationProvider,
+    ValidationObserver,
+    ValidationError,
     GradientButton,
   },
-};
+})
+export default class SignIn extends Vue {
+  email = "";
+  emailOrPhone = "";
+  password = "";
+  isForgetPassword = false;
+  loading = false;
+  responseError = "";
+
+  onLogin(): void {
+    const { emailOrPhone, password } = this;
+    this.loading = true;
+
+    api
+      .login({ email: emailOrPhone, phone: emailOrPhone, password })
+      .then(async (r) => {
+        const json = await r.json();
+        if (r.ok) {
+          // save token in localstorage
+          console.log(json);
+        } else {
+          this.responseError = r.status === 401 ? json.message : json;
+          // 500!
+        }
+      })
+      .catch(console.error)
+      .finally(() => {
+        this.loading = false;
+      });
+  }
+
+  onResetPassword(): void {
+    const { email } = this;
+    this.loading = true;
+    api
+      .resetPassword({ email })
+      .then(async (r) => {
+        this.responseError = await r.json();
+      })
+      .catch(console.error)
+      .finally(() => (this.loading = false));
+  }
+}
 </script>
 
 <style scoped lang="less">
@@ -104,6 +218,7 @@ export default {
       text-align: right;
       margin-top: 10px;
       color: @label-color;
+      cursor: pointer;
     }
   }
 
