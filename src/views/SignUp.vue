@@ -9,7 +9,40 @@
         </ValidationError>
       </div>
 
-      <form id="sign-up-form" @submit.prevent="onSubmit">
+      <div>{{ responseMessage }}</div>
+
+      <!-- PHONE VERIFICATION FORM -->
+      <form
+        id="verification-form"
+        v-if="successfulSignup"
+        @submit.prevent="onVerify"
+      >
+        <ValidationObserver v-slot="{ invalid }">
+          <div class="form-group">
+            <label>The verification code you received on your phone</label>
+            <ValidationProvider name="Verification Code" v-slot="{ errors }">
+              <input
+                v-model="verificationCode"
+                name="verification code"
+                type="text"
+                required
+                placeholder="Enter your verfification code"
+              />
+              <ValidationError> {{ errors[0] }} </ValidationError>
+            </ValidationProvider>
+            <GradientButton
+              class="submit-button"
+              type="submit"
+              :disabled="invalid"
+              :isLoading="loading"
+              >Verify</GradientButton
+            >
+          </div>
+        </ValidationObserver>
+      </form>
+
+      <!-- SIGNUP FORM -->
+      <form id="sign-up-form" @submit.prevent="onSignup" v-else>
         <ValidationObserver v-slot="{ invalid }">
           <div class="sign-up-fields-divisor">
             <div class="form-group">
@@ -45,7 +78,7 @@
               <label>Your phone</label>
               <ValidationProvider
                 name="Phone"
-                :rules="{ regex: /^01(0|1|2|5)[0-9]{8}$/ }"
+                :rules="{ regex: REGEX.PHONE }"
                 v-slot="{ errors }"
               >
                 <input
@@ -112,7 +145,11 @@
             </div>
           </div>
 
-          <GradientButton type="submit" :disabled="invalid"
+          <GradientButton
+            class="submit-button"
+            type="submit"
+            :disabled="invalid"
+            :isLoading="loading"
             >Sign up</GradientButton
           >
         </ValidationObserver>
@@ -130,6 +167,7 @@
 import ValidationError from "@/components/ValidationError.vue";
 import GradientButton from "@/components/GradientButton.vue";
 import api from "@/services/api";
+import REGEX from "@/policies/regex";
 import { Component, Vue } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import {
@@ -161,16 +199,20 @@ extend("max_value", max_value);
   },
 })
 export default class SignUp extends Vue {
+  REGEX = REGEX;
   name = "";
   email = "";
   phone_number = "";
   ssn = "";
   salary = "";
   password = "";
+  verificationCode = "";
   responseMessage = "";
   responseErrors: string[] = [];
+  loading = false;
+  successfulSignup = false;
 
-  onSubmit(): void {
+  onSignup(): void {
     const { name, email, phone_number, ssn, salary, password } = this;
     const body = {
       name,
@@ -180,14 +222,16 @@ export default class SignUp extends Vue {
       salary,
       password,
     };
+    this.loading = true;
+
     api
       .signup(body)
       .then(async (r) => {
         const json = await r.json();
-
         if (r.ok) {
           // continue to phone validation
           this.responseMessage = json.message;
+          this.successfulSignup = true;
         } else {
           this.responseErrors = [];
           for (const e in json) {
@@ -197,8 +241,32 @@ export default class SignUp extends Vue {
           // 500!
         }
       })
-      .catch(console.error);
-    console.log("Submitting");
+      .catch(console.error)
+      .finally(() => {
+        this.loading = false;
+      });
+    console.log("Submitting: SIGNUP");
+  }
+
+  onVerify(): void {
+    const { email, phone_number, verificationCode: code, password } = this;
+
+    this.loading = true;
+    api
+      .verify({ email, phone_number, code, password })
+      .then(async (r) => {
+        const json = await r.json();
+        // TODO: save token on succcessfull verification
+        // same logic as successfull signup
+        this.responseMessage = json;
+        console.log(r.status);
+        console.log(json);
+      })
+      .catch(console.error)
+      .finally(() => {
+        this.loading = false;
+      });
+    console.log("Submitting: VERIFY");
   }
 }
 </script>
@@ -241,8 +309,8 @@ export default class SignUp extends Vue {
 
     .sign-up-fields-divisor {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 130px);
       grid-column-gap: 15px;
     }
 
