@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <span class="error-message"> <slot></slot> </span>
+  <div class="error-message">
+    <span> <slot></slot> </span>
   </div>
 </template>
 
@@ -12,6 +12,6 @@ export default {};
 .error-message {
   font-size: 10pt;
   color: red;
-  margin-top: 2px;
+  margin-top: 10px;
 }
 </style>
