@@ -18,7 +18,7 @@ import NavigationBar from "@/components/NavigationBar.vue";
 export default class App extends Vue {}
 </script>
 
-<style>
+<style lang="less">
 * {
   margin: 0;
   padding: 0;
@@ -31,5 +31,11 @@ body,
 #app {
   height: 100%;
   width: 100%;
+}
+
+.form-card {
+  background: white;
+  padding: 35px;
+  border-radius: 0.5rem;
 }
 </style>
