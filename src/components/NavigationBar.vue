@@ -9,7 +9,7 @@
         <li><router-link to="/">Home</router-link></li>
         <li><a href="#">Donate</a></li>
         <li>
-          <router-link to="/signin">Sign In</router-link>
+          <router-link to="/get-started">Get Started</router-link>
         </li>
         <li class="language">
           <a href="#">
@@ -43,7 +43,7 @@ export default class Navigation extends Vue {}
 
 .navbar {
   display: grid;
-  grid-template-columns: 2.5fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   position: relative;
   width: 100%;
   background: linear-gradient(to right, @light-blue 6%, @dark-blue);
