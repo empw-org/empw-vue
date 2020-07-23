@@ -158,7 +158,9 @@
 
     <div class="have-account-text">
       Already have account?
-      <router-link to="/signin" class="sign-in-link">Sign in now</router-link>
+      <router-link to="/user/signin" class="sign-in-link"
+        >Sign in now</router-link
+      >
     </div>
   </div>
 </template>
@@ -217,14 +219,14 @@ export default class SignUp extends Vue {
     const body = {
       name,
       email,
-      phone_number: `+2${phone_number}`,
+      phone_number,
       ssn,
       salary,
       password,
     };
     this.loading = true;
 
-    api
+    api.users
       .signup(body)
       .then(async (r) => {
         const json = await r.json();
@@ -252,7 +254,7 @@ export default class SignUp extends Vue {
     const { email, phone_number, verificationCode: code, password } = this;
 
     this.loading = true;
-    api
+    api.users
       .verify({ email, phone_number, code, password })
       .then(async (r) => {
         const json = await r.json();
@@ -272,19 +274,7 @@ export default class SignUp extends Vue {
 </script>
 
 <style scoped lang="less">
-@light-blue: #00bdce;
-@dark-blue: #0071d2;
-@light-gray: #ebeff2;
-@label-color: darken(@light-gray, 50%);
-@header-height: 80px;
-
-.gradient {
-  background: linear-gradient(to right, @light-blue 6%, @dark-blue);
-}
-
-.errors {
-  color: red;
-}
+@import "@/assets/variables";
 
 .gradient-container {
   .gradient();
@@ -292,6 +282,7 @@ export default class SignUp extends Vue {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   .page-title {
     color: white;
@@ -300,12 +291,8 @@ export default class SignUp extends Vue {
   }
 
   .form-card {
-    background: white;
-    padding: 35px;
-    border-radius: 0.5rem;
     width: 45%;
     min-width: 450px;
-    position: relative;
 
     .sign-up-fields-divisor {
       display: grid;

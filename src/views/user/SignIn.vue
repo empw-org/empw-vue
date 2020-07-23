@@ -1,6 +1,7 @@
 <template>
   <div class="gradient-container">
     <h1 class="page-title">Sign in</h1>
+
     <div class="form-card">
       <div class="errors-array-response" v-if="responseError.length">
         <ValidationError> * {{ responseError }} </ValidationError>
@@ -81,9 +82,12 @@
         </ValidationObserver>
       </form>
     </div>
+
     <div class="no-account-text">
       No account?
-      <router-link to="/signup" class="register-link">Register now</router-link>
+      <router-link to="/user/signup" class="sign-up-link"
+        >Sign up now</router-link
+      >
     </div>
   </div>
 </template>
@@ -118,7 +122,7 @@ export default class SignIn extends Vue {
     const { emailOrPhone, password } = this;
     this.loading = true;
 
-    api
+    api.users
       .login({ email: emailOrPhone, phone: emailOrPhone, password })
       .then(async (r) => {
         const json = await r.json();
@@ -139,7 +143,7 @@ export default class SignIn extends Vue {
   onResetPassword(): void {
     const { email } = this;
     this.loading = true;
-    api
+    api.users
       .resetPassword({ email })
       .then(async (r) => {
         this.responseError = await r.json();
@@ -151,15 +155,7 @@ export default class SignIn extends Vue {
 </script>
 
 <style scoped lang="less">
-@light-blue: #00bdce;
-@dark-blue: #0071d2;
-@light-gray: #ebeff2;
-@label-color: darken(@light-gray, 50%);
-@header-height: 80px;
-
-.gradient {
-  background: linear-gradient(to right, @light-blue 6%, @dark-blue);
-}
+@import "@/assets/variables";
 
 .gradient-container {
   .gradient();
@@ -167,17 +163,15 @@ export default class SignIn extends Vue {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   .page-title {
     color: white;
-    margin: 50px 0 70px 0;
+    margin: 10px 0 50px 0;
     font-size: 30pt;
   }
 
   .form-card {
-    background: white;
-    padding: 35px;
-    border-radius: 0.5rem;
     width: 35%;
     min-width: 350px;
 
@@ -226,7 +220,7 @@ export default class SignIn extends Vue {
     color: white;
     margin: 15px 0;
 
-    .register-link {
+    .sign-up-link {
       color: darken(@label-color, 20%);
     }
   }
