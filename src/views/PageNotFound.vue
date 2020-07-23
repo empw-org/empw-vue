@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <h1>Page Not Found</h1>
-    <h2>404</h2>
+  <div class="not-found-container">
+    <img
+      src="@/assets/images/404.svg"
+      alt="404 page not found"
+      class="not-found-img"
+    />
   </div>
 </template>
 
@@ -9,4 +12,21 @@
 export default {};
 </script>
 
-<style></style>
+<style lang="less">
+@import "@/assets/variables.less";
+
+.not-found-img {
+  min-width: 40%;
+  max-width: 100%;
+}
+
+.not-found-container {
+  width: 100%;
+  .gradient();
+  min-height: calc(100% - @header-height);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
