@@ -1,45 +1,11 @@
 <template>
   <div class="gradient-container">
-    <h1 class="page-title">Sign in</h1>
+    <h1 class="page-title">Company - Sign in</h1>
 
     <div class="form-card">
       <div class="errors-array-response" v-if="responseError.length">
         <ValidationError> * {{ responseError }} </ValidationError>
       </div>
-
-      <!-- FORGET PASSWORD FORM -->
-      <form
-        id="forget-password-form"
-        @submit.prevent="onResetPassword"
-        v-if="isForgetPassword"
-      >
-        <ValidationObserver v-slot="{ invalid }">
-          <div class="form-group">
-            <label>Your email</label>
-            <ValidationProvider name="Email" v-slot="{ errors }">
-              <input
-                v-model="email"
-                name="email"
-                type="email"
-                required
-                placeholder="Enter your email"
-              />
-              <ValidationError> {{ errors[0] }} </ValidationError>
-            </ValidationProvider>
-
-            <span
-              class="forget-password-link"
-              @click="isForgetPassword = false"
-            >
-              Login with your password?
-            </span>
-          </div>
-
-          <GradientButton type="submit" :disabled="invalid" :isLoading="loading"
-            >Reset password</GradientButton
-          >
-        </ValidationObserver>
-      </form>
 
       <!-- SIGN IN FORM -->
       <form id="sign-in-form" @submit.prevent="onLogin" v-else>
@@ -56,9 +22,6 @@
               />
               <ValidationError> {{ errors[0] }} </ValidationError>
             </ValidationProvider>
-            <span class="forget-password-link" @click="isForgetPassword = true">
-              Forget your password?
-            </span>
           </div>
 
           <div class="form-group">
@@ -85,9 +48,9 @@
 
     <div class="no-account-text">
       No account?
-      <router-link to="/user/signup" class="sign-up-link"
-        >Sign up now</router-link
-      >
+      <router-link to="/company/signup" class="sign-up-link">
+        Sign up now
+      </router-link>
     </div>
   </div>
 </template>
@@ -122,7 +85,7 @@ export default class SignIn extends Vue {
     const { emailOrPhone, password } = this;
     this.loading = true;
 
-    api.users
+    api.companies
       .login({ email: emailOrPhone, phone: emailOrPhone, password })
       .then(async (r) => {
         const json = await r.json();
@@ -138,18 +101,6 @@ export default class SignIn extends Vue {
       .finally(() => {
         this.loading = false;
       });
-  }
-
-  onResetPassword(): void {
-    const { email } = this;
-    this.loading = true;
-    api.users
-      .resetPassword({ email })
-      .then(async (r) => {
-        this.responseError = await r.json();
-      })
-      .catch(console.error)
-      .finally(() => (this.loading = false));
   }
 }
 </script>

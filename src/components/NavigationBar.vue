@@ -43,7 +43,7 @@ export default class Navigation extends Vue {}
 
 .navbar {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1fr 1fr;
   position: relative;
   width: 100%;
   background: linear-gradient(to right, @light-blue 6%, @dark-blue);
