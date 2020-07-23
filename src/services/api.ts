@@ -35,22 +35,32 @@ const api = {
 };
 
 export default {
-  async login(body: any) {
-    return await api.post("/users/login", body);
+  users: {
+    async login(body: any) {
+      return await api.post("/users/login", body);
+    },
+    async signup(body: any) {
+      return await api.post("/users/signup", body);
+    },
+    async verify(body: any) {
+      return await api.patch("/users/verify", body);
+    },
+    async changePassword(body: any) {
+      return await api.patch("/users/password", body);
+    },
+    async resetPassword(body: any) {
+      return await api.post("/users/reset-password", body);
+    },
   },
-  async signup(body: any) {
-    return await api.post("/users/signup", body);
-  },
-  async verify(body: any) {
-    return await api.patch("/users/verify", body);
+  companies: {
+    async login(body: any) {
+      return await api.post("/companies/login", body);
+    },
+    async signup(body: any) {
+      return await api.post("/companies/signup", body);
+    },
   },
   async contactUs(body: any) {
     return await api.post("/contact_us", body);
-  },
-  async changePassword(body: any) {
-    return await api.patch("/users/password", body);
-  },
-  async resetPassword(body: any) {
-    return await api.post("/users/reset-password", body);
   },
 };
