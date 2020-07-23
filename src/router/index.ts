@@ -1,9 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import ResetPassword from "../views/ResetPassword.vue";
-import SignIn from "../views/SignIn.vue";
-import SignUp from "../views/SignUp.vue";
+import Home from "@/views/Home.vue";
+import GetStarted from "@/views/GetStarted.vue";
+import PageNotFound from "@/views/PageNotFound.vue";
+import ResetPassword from "@/views/user/ResetPassword.vue";
+import UserSignIn from "@/views/user/SignIn.vue";
+import UserSignUp from "@/views/user/SignUp.vue";
+import CompanySignIn from "@/views/company/SignIn.vue";
+import CompanySignUp from "@/views/company/SignUp.vue";
 
 Vue.use(VueRouter);
 
@@ -14,20 +18,36 @@ const routes = [
     component: Home,
   },
   {
-    path: "/signin",
-    name: "Sign In",
-    component: SignIn,
+    path: "/get-started",
+    name: "Get Started",
+    component: GetStarted,
   },
   {
-    path: "/reset-password",
-    name: "Reset Password",
+    path: "/user/signin",
+    name: "User - Sign In",
+    component: UserSignIn,
+  },
+  {
+    path: "/user/signup",
+    name: "User - Sign Up",
+    component: UserSignUp,
+  },
+  {
+    path: "/user/reset-password",
+    name: "User - Reset Password",
     component: ResetPassword,
   },
   {
-    path: "/signup",
-    name: "Sign Up",
-    component: SignUp,
+    path: "/company/signin",
+    name: "Company - Sign In",
+    component: CompanySignIn,
   },
+  {
+    path: "/company/signup",
+    name: "Company - Sign Up",
+    component: CompanySignUp,
+  },
+  { path: "*", component: PageNotFound },
 ];
 
 const router = new VueRouter({
