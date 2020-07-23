@@ -45,10 +45,6 @@ export default class GetStarted extends Vue {}
     align-items: center;
     justify-items: center;
 
-    .full-width {
-      width: 100%;
-    }
-
     .or-separator {
       color: @label-color;
 

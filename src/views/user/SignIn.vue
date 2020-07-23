@@ -158,13 +158,6 @@ export default class SignIn extends Vue {
 @import "@/assets/variables";
 
 .gradient-container {
-  .gradient();
-  min-height: calc(100% - @header-height);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
   .page-title {
     color: white;
     margin: 10px 0 50px 0;
