@@ -19,6 +19,8 @@ export default class App extends Vue {}
 </script>
 
 <style lang="less">
+@import "@/assets/variables";
+
 * {
   margin: 0;
   padding: 0;
@@ -32,10 +34,22 @@ body,
   height: 100%;
   width: 100%;
 }
+.gradient-container {
+  .gradient();
+  min-height: calc(100% - @header-height);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 .form-card {
   background: white;
   padding: 35px;
   border-radius: 0.5rem;
+}
+
+.full-width {
+  width: 100%;
 }
 </style>
