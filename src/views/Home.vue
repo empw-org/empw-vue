@@ -221,15 +221,8 @@ export default class Home extends Vue {
 }
 </script>
 
-<style lang="less">
-/*Header-Info*/
-.gradient {
-  background: linear-gradient(to right, #00bdce 6%, #0071d2);
-}
-
-.gradient-reverse {
-  background: linear-gradient(to left, #00bdce 6%, #0071d2);
-}
+<style lang="less" scoped>
+@import "@/assets/variables";
 
 .landing-page-header {
   position: relative;
@@ -474,13 +467,14 @@ button#submit:hover span {
   align-items: center;
   color: #999ba7;
   margin: 15px 0;
+
+  .hr-line {
+    height: 1px;
+    width: 100%;
+    background-color: #d6dadc;
+  }
 }
 
-.hr-line {
-  height: 1px;
-  width: 100%;
-  background-color: #d6dadc;
-}
 .landing-page-footer {
   padding: 4% 10% 2% 10%;
   .gradient();
