@@ -94,7 +94,12 @@
             </div>
 
             <div class="form-group">
-              <label>Your SSN</label>
+              <label
+                >Your
+                <abbr title="Social Security Number / National ID Number"
+                  >SSN</abbr
+                ></label
+              >
               <ValidationProvider
                 name="SSN"
                 rules="digits:14"
@@ -277,6 +282,10 @@ export default class SignUp extends Vue {
 @import "@/assets/variables";
 
 .gradient-container {
+  abbr[title] {
+    border-bottom: 1px dotted;
+  }
+
   .page-title {
     color: white;
     margin: 10px 0 50px 0;
