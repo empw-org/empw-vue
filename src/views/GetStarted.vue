@@ -46,12 +46,12 @@ export default class GetStarted extends Vue {}
     justify-items: center;
 
     .or-separator {
-      color: @label-color;
+      color: @dark-gray;
 
       .hr-line {
         height: 1px;
         width: 100%;
-        background-color: @label-color;
+        background-color: @dark-gray;
       }
     }
   }

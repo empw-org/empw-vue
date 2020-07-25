@@ -124,7 +124,7 @@ export default class SignIn extends Vue {
 
       label {
         display: block;
-        color: @label-color;
+        color: @dark-gray;
       }
 
       input {
@@ -155,7 +155,7 @@ export default class SignIn extends Vue {
       display: block;
       text-align: right;
       margin-top: 10px;
-      color: @label-color;
+      color: @dark-gray;
       cursor: pointer;
     }
   }
@@ -165,7 +165,7 @@ export default class SignIn extends Vue {
     margin: 15px 0;
 
     .sign-up-link {
-      color: darken(@label-color, 20%);
+      color: darken(@dark-gray, 20%);
     }
   }
 }

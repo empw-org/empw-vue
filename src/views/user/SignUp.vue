@@ -308,7 +308,7 @@ export default class SignUp extends Vue {
 
       label {
         display: block;
-        color: @label-color;
+        color: @dark-gray;
       }
 
       input {
@@ -339,7 +339,7 @@ export default class SignUp extends Vue {
     margin: 15px 0;
 
     .sign-in-link {
-      color: darken(@label-color, 20%);
+      color: darken(@dark-gray, 20%);
     }
   }
 }

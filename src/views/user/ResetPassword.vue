@@ -144,7 +144,7 @@ export default class ResetPassword extends Vue {
 
       label {
         display: block;
-        color: @label-color;
+        color: @dark-gray;
       }
 
       input {
