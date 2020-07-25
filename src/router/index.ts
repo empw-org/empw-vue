@@ -8,6 +8,7 @@ import UserSignIn from "@/views/user/SignIn.vue";
 import UserSignUp from "@/views/user/SignUp.vue";
 import CompanySignIn from "@/views/company/SignIn.vue";
 import CompanySignUp from "@/views/company/SignUp.vue";
+import CompanyProfile from "@/views/company/Profile.vue";
 
 Vue.use(VueRouter);
 
@@ -46,6 +47,11 @@ const routes = [
     path: "/company/signup",
     name: "Company - Sign Up",
     component: CompanySignUp,
+  },
+  {
+    path: "/company/profile",
+    name: "Company - Profile",
+    component: CompanyProfile,
   },
   { path: "*", component: PageNotFound },
 ];
