@@ -8,7 +8,7 @@
       </div>
 
       <!-- SIGN IN FORM -->
-      <form id="sign-in-form" @submit.prevent="onLogin" v-else>
+      <form id="sign-in-form" @submit.prevent="onLogin">
         <ValidationObserver v-slot="{ invalid }">
           <div class="form-group">
             <label>Your email / phone number</label>
@@ -39,9 +39,13 @@
             </ValidationProvider>
           </div>
 
-          <GradientButton type="submit" :disabled="invalid" :isLoading="loading"
-            >Sign in</GradientButton
+          <GradientButton
+            type="submit"
+            :disabled="invalid"
+            :isLoading="loading"
           >
+            Sign in
+          </GradientButton>
         </ValidationObserver>
       </form>
     </div>
