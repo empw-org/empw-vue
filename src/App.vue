@@ -5,7 +5,6 @@
   </div>
 </template>
 
-@Component({
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import NavigationBar from "@/components/NavigationBar.vue";
