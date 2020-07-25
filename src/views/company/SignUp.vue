@@ -98,7 +98,7 @@
 
     <div class="have-account-text">
       Already have account?
-      <router-link to="/user/signin" class="sign-in-link"
+      <router-link to="/company/signin" class="sign-in-link"
         >Sign in now</router-link
       >
     </div>
