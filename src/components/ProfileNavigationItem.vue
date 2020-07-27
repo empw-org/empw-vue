@@ -11,7 +11,12 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class GradientButton extends Vue {
-  @Prop({ default: false, type: Boolean }) isActive!: boolean;
+  @Prop({ type: String }) path!: string;
+
+  get isActive(): boolean {
+    const r = this.$route.path.split("/").pop();
+    return r === this.path;
+  }
 }
 </script>
 

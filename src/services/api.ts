@@ -59,6 +59,9 @@ export default {
     async signup(body: any) {
       return await api.post("/companies/signup", body);
     },
+    async getAssignedOrders() {
+      return await api.get("/water_orders");
+    },
   },
   async contactUs(body: any) {
     return await api.post("/contact_us", body);

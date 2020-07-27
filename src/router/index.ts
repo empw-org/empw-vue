@@ -9,6 +9,10 @@ import UserSignUp from "@/views/user/SignUp.vue";
 import CompanySignIn from "@/views/company/SignIn.vue";
 import CompanySignUp from "@/views/company/SignUp.vue";
 import CompanyProfile from "@/views/company/Profile.vue";
+import CompanyWaterOrders from "@/views/company/profile-views/WaterOrders.vue";
+import CompanyStatistics from "@/views/company/profile-views/Statistics.vue";
+import CompanyMap from "@/views/company/profile-views/Map.vue";
+import CompanyEditProfile from "@/views/company/profile-views/EditProfile.vue";
 
 Vue.use(VueRouter);
 
@@ -50,8 +54,30 @@ const routes = [
   },
   {
     path: "/company/profile",
-    name: "Company - Profile",
+    name: "company-profile",
     component: CompanyProfile,
+    children: [
+      {
+        path: "water-orders",
+        name: "company-water-orders",
+        component: CompanyWaterOrders,
+      },
+      {
+        path: "statistics",
+        name: "company-statistics",
+        component: CompanyStatistics,
+      },
+      {
+        path: "map",
+        name: "company-map",
+        component: CompanyMap,
+      },
+      {
+        path: "edit-profile",
+        name: "company-edit-profile",
+        component: CompanyEditProfile,
+      },
+    ],
   },
   { path: "*", component: PageNotFound },
 ];
