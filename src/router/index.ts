@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import GetStarted from "@/views/GetStarted.vue";
+import Donation from "@/views/Donation.vue";
 import PageNotFound from "@/views/PageNotFound.vue";
 import ResetPassword from "@/views/user/ResetPassword.vue";
 import UserSignIn from "@/views/user/SignIn.vue";
@@ -21,6 +22,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/donation",
+    name: "Donation",
+    component: Donation,
   },
   {
     path: "/get-started",
