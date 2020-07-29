@@ -1,7 +1,7 @@
 <template>
   <div class="gradient-container">
     <div class="form-card">
-      <router-link class="full-width" to="/user/signin">
+      <router-link class="full-width" :to="{ name: 'user-signin' }">
         <GradientButton>Contiue as User</GradientButton>
       </router-link>
 
@@ -10,7 +10,7 @@
         <div class="hr-line"></div>
       </div>
 
-      <router-link class="full-width" to="/company/signin">
+      <router-link class="full-width" :to="{ name: 'company-signin' }">
         <GradientButton>Contiue as Company</GradientButton>
       </router-link>
     </div>

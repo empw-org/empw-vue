@@ -7,7 +7,7 @@
           alt=""
         />
         <p>
-          Help us to deliver water for all those people and see their smile. 😃
+          Help us deliver water for all those people and see their smile. 😃
         </p>
       </div>
 

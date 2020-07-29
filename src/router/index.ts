@@ -20,42 +20,42 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     component: Home,
   },
   {
     path: "/donation",
-    name: "Donation",
+    name: "donation",
     component: Donation,
   },
   {
     path: "/get-started",
-    name: "Get Started",
+    name: "get-started",
     component: GetStarted,
   },
   {
     path: "/user/signin",
-    name: "User - Sign In",
+    name: "user-signin",
     component: UserSignIn,
   },
   {
     path: "/user/signup",
-    name: "User - Sign Up",
+    name: "user-signup",
     component: UserSignUp,
   },
   {
     path: "/user/reset-password",
-    name: "User - Reset Password",
+    name: "user-reset-password",
     component: ResetPassword,
   },
   {
     path: "/company/signin",
-    name: "Company - Sign In",
+    name: "company-signin",
     component: CompanySignIn,
   },
   {
     path: "/company/signup",
-    name: "Company - Sign Up",
+    name: "company-signup",
     component: CompanySignUp,
   },
   {

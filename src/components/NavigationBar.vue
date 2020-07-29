@@ -6,10 +6,10 @@
 
     <div class="menus">
       <ul class="menu-items">
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link :to="{ name: 'Donation' }">Donate</router-link></li>
+        <li><router-link :to="{ name: 'home' }">Home</router-link></li>
+        <li><router-link :to="{ name: 'donation' }">Donate</router-link></li>
         <li>
-          <router-link to="/get-started">Get Started</router-link>
+          <router-link :to="{ name: 'get-started' }">Get Started</router-link>
         </li>
         <li class="language">
           <a href="#">

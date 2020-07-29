@@ -52,7 +52,7 @@
 
     <div class="no-account-text">
       No account?
-      <router-link to="/company/signup" class="sign-up-link">
+      <router-link :to="{ name: 'company-signup' }" class="sign-up-link">
         Sign up now
       </router-link>
     </div>

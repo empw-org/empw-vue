@@ -85,7 +85,7 @@
 
     <div class="no-account-text">
       No account?
-      <router-link to="/user/signup" class="sign-up-link"
+      <router-link :to="{ name: 'user-signup' }" class="sign-up-link"
         >Sign up now</router-link
       >
     </div>
