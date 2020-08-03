@@ -27,19 +27,21 @@
           </div>
 
           <div class="about-text">
-            <h1>About the application</h1>
+            <h1>About EMPW</h1>
             <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis
-              tempora labore asperiores unde vel fugit accusantium est?
-              Quibusdam ea tenetur unde repellat veritatis deleniti est nam
-              minus? Exercitationem, minus impedit?
+              EMPW's primary purpose is to facilitate communication between
+              people and water companies. Some areas in Egypt don't have proper
+              infrastructure for delivering water. People in these areas usually
+              buy mineral water. It can be cumbersome to frequently go purchase
+              water from a supermarket or a supplier.
             </p>
-
             <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor
-              nemo vitae maiores facere porro accusantium doloremque quasi esse
-              tempore impedit eum, molestias non possimus nesciunt sequi velit
-              adipisci? Enim, pariatur!
+              EMPW to the rescue! <br />
+              Through EMPW you get to order water and have your order delivered
+              to your location by our transporters. Not only water ordering and
+              delivering but we help you save water. You can buy a water sensor
+              to track your consumption and that will enable you to rationalize
+              water consumption.
             </p>
           </div>
         </div>
@@ -54,46 +56,57 @@
 
         <div class="our-services-description">
           <div class="our-service-card">
-            <img src="@/assets/images/ordering.svg" alt="Deliver" />
+            <img src="@/assets/images/ordering.svg" alt="mobile order water" />
             <h1>Online Ordering</h1>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste,
-              sunt sequi quae in enim dicta exercitationem nisi officiis porro
-              eaque ullam dolorum error doloribus pariatur blanditiis delectus
-              sint repellendus accusamus.
+              Getting any amount of water is at the tip of your fingers. Now you
+              can easily order water using our easy-to-use mobile app.
+            </p>
+            <p>
+              Also ordering water is as simple as a couple of clicks on our
+              website.
             </p>
           </div>
 
           <div class="our-service-card">
-            <img src="@/assets/images/company.svg" alt="Pure Water" />
+            <img
+              src="@/assets/images/company.svg"
+              alt="company preparing water"
+            />
             <h1>Pure Water</h1>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
-              pariatur aperiam alias! Eligendi doloribus expedita amet dolore!
-              Iste id fugit, aspernatur, quo sit nisi, sunt ut explicabo odit
-              hic eos.
+              You can rest assured that your water order will be prepared by one
+              of our reputed companies.
+            </p>
+            <p>
+              In most cases, your order is prepared by the nearest company to
+              your location.
             </p>
           </div>
 
           <div class="our-service-card">
-            <img src="@/assets/images/delivering.svg" alt="Deliver" />
+            <img
+              src="@/assets/images/delivering.svg"
+              alt="cars delivering water"
+            />
             <h1>Delivering</h1>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste,
-              sunt sequi quae in enim dicta exercitationem nisi officiis porro
-              eaque ullam dolorum error doloribus pariatur blanditiis delectus
-              sint repellendus accusamus.
+              Our transporters fetch your water order from the company to your
+              location as soon as the order is prepared by the company and ready
+              for shipping.
             </p>
           </div>
 
           <div class="our-service-card">
-            <img src="@/assets/images/water_sensor.svg" alt />
+            <img src="@/assets/images/water_sensor.svg" alt="water sensor" />
             <h1>Help Save Water</h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
-              quibusdam optio alias ipsum dolor iure quidem culpa nesciunt
-              placeat et aliquam sapiente natus nam eum velit ut, eveniet, autem
-              hic!
+              Sensors are here to help you rationalize your water consumption.
+              You will receive consumption reports, analytics, and statistics.
+            </p>
+            <p>
+              You also have the option to let the sensor order water for you
+              once the water level goes below a predetermined value.
             </p>
           </div>
         </div>
@@ -340,7 +353,8 @@ export default class Home extends Vue {
       p {
         color: @dark-gray;
         margin-bottom: 1rem;
-        font-size: 22px;
+        font-size: 1.5rem;
+        text-align: justify;
       }
     }
   }
@@ -398,7 +412,7 @@ export default class Home extends Vue {
       p {
         color: @dark-gray;
         text-align: justify;
-        font-size: 15pt;
+        font-size: 1.2rem;
         margin-bottom: 0.5rem;
       }
     }
@@ -423,6 +437,7 @@ export default class Home extends Vue {
   height: 100%;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+  padding: 0 3rem;
 }
 
 /*Form*/
