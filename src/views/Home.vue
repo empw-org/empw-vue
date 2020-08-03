@@ -6,8 +6,13 @@
         <h1>Enhanced Management of Pure Water</h1>
         <p>Get any amount of water as fast, as pure as you need.</p>
         <div class="donate-request-buttons">
-          <button class="donate-button">Donate Water</button>
-          <button class="request-button">Request Water</button>
+          <router-link :to="{ name: 'donation' }">
+            <button class="donate-button">Donate Water</button>
+          </router-link>
+
+          <router-link :to="{ name: 'user-signin' }">
+            <button class="request-button">Order Water</button>
+          </router-link>
         </div>
       </div>
 
@@ -16,26 +21,27 @@
 
     <main>
       <section class="about-section">
-        <div class="about-title">
-          <h1>About</h1>
-        </div>
-        <div class="image-and-article-section">
-          <img src="@/assets/images/family-drinking.jpg" alt />
-          <article>
-            <h1>Enhanced Management of Pure Water</h1>
+        <div class="about-section-container">
+          <div class="about-image">
+            <img src="@/assets/images/family-drinking.jpg" />
+          </div>
+
+          <div class="about-text">
+            <h1>About the application</h1>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis
+              tempora labore asperiores unde vel fugit accusantium est?
+              Quibusdam ea tenetur unde repellat veritatis deleniti est nam
+              minus? Exercitationem, minus impedit?
+            </p>
 
             <p>
-              Egypt faces a serious problem in many cities and areas because of
-              water shortage. Lately, the problem of Nahda Dam appears on the
-              surface that will lower the amount of Nile water. Our government
-              aims at solving the problem of water shortage by distilling water
-              of Red Sea and Mediterranean Sea and make use of groundwater so
-              that people can drink it and solve water problem. Also, There is a
-              problem in connecting between water companies and consumers. In
-              addition, Consumers have a problem in rationing water consumption.
-              These are the problems we solve.
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor
+              nemo vitae maiores facere porro accusantium doloremque quasi esse
+              tempore impedit eum, molestias non possimus nesciunt sequi velit
+              adipisci? Enim, pariatur!
             </p>
-          </article>
+          </div>
         </div>
 
         <div class="wave"></div>
@@ -45,10 +51,11 @@
         <div class="our-services-title">
           <h1 class="section-header">Our Services</h1>
         </div>
+
         <div class="our-services-description">
           <div class="our-service-card">
-            <img src="@/assets/icons/pickup-truck.svg" alt="Deliver" />
-            <h1>Delivering</h1>
+            <img src="@/assets/images/ordering.svg" alt="Deliver" />
+            <h1>Online Ordering</h1>
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste,
               sunt sequi quae in enim dicta exercitationem nisi officiis porro
@@ -58,7 +65,7 @@
           </div>
 
           <div class="our-service-card">
-            <img src="@/assets/icons/water.svg" alt="Pure Water" />
+            <img src="@/assets/images/company.svg" alt="Pure Water" />
             <h1>Pure Water</h1>
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
@@ -69,18 +76,18 @@
           </div>
 
           <div class="our-service-card">
-            <img src="@/assets/icons/pay.svg" alt />
-            <h1>Cheap Service</h1>
+            <img src="@/assets/images/delivering.svg" alt="Deliver" />
+            <h1>Delivering</h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
-              quibusdam optio alias ipsum dolor iure quidem culpa nesciunt
-              placeat et aliquam sapiente natus nam eum velit ut, eveniet, autem
-              hic!
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste,
+              sunt sequi quae in enim dicta exercitationem nisi officiis porro
+              eaque ullam dolorum error doloribus pariatur blanditiis delectus
+              sint repellendus accusamus.
             </p>
           </div>
 
           <div class="our-service-card">
-            <img src="@/assets/icons/rationalize.svg" alt />
+            <img src="@/assets/images/water_sensor.svg" alt />
             <h1>Help Save Water</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
@@ -122,10 +129,10 @@
                 rows="10"
                 required
               ></textarea>
-              <button id="submit" type="submit">
+              <GradientButton id="submit" type="submit" :isLoading="isLoading">
                 <span>Submit</span>
                 <i class="fas fa-paper-plane"></i>
-              </button>
+              </GradientButton>
             </form>
             <div class="or-separator">
               <div class="hr-line"></div>
@@ -162,7 +169,7 @@
         </div>
 
         <div class="contact-us-image">
-          <img src="@/assets/images/contact-us.png" />
+          <img src="@/assets/images/contact-us.svg" />
         </div>
       </div>
 
@@ -196,8 +203,13 @@
 <script lang="ts">
 import api from "@/services/api";
 import { Component, Vue } from "vue-property-decorator";
+import { mapState } from "vuex";
+import GradientButton from "../components/GradientButton.vue";
 
-@Component
+@Component({
+  components: { GradientButton },
+  computed: mapState(["isLoading"]),
+})
 export default class Home extends Vue {
   email = "";
   name = "";
@@ -207,12 +219,16 @@ export default class Home extends Vue {
     const { email, name, message } = this;
     api
       .contactUs({ email, name, message, from: "WEB" })
-      .then((r) => {
-        console.log(r);
-        return r.data;
+      .then(() => {
+        (this as any).$swal("Thank You!", "We got your message", "success");
       })
-      .then(console.log)
-      .catch(console.error);
+      .catch(() => {
+        (this as any).$swal(
+          "Error!",
+          "Something went wrong. We couldn't send your message",
+          "error"
+        );
+      });
   }
 
   get currentYear(): number {
@@ -292,66 +308,103 @@ export default class Home extends Vue {
   position: relative;
   width: 100%;
   overflow: hidden;
+
+  .about-section-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 3rem;
+    padding-bottom: 10rem;
+
+    .about-image {
+      padding: 3rem;
+
+      img {
+        width: 100%;
+        border-radius: 0.5rem;
+        border: 1px solid @gray-border-color;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+    }
+
+    .about-text {
+      padding: 3rem;
+
+      h1 {
+        color: darken(@light-blue, 10%);
+        margin: 2rem 0;
+        font-size: 30pt;
+        font-family: "Kurale";
+      }
+
+      p {
+        color: @dark-gray;
+        margin-bottom: 1rem;
+        font-size: 22px;
+      }
+    }
+  }
+
+  .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url(../assets/wave-grad.png);
+    background-size: 100% 100px;
+  }
 }
 
-.about-section .wave {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  background: url(../assets/wave-grad.png);
-  background-size: 100% 100px;
-}
+/* Our Services section */
 
-.about-title {
-  margin-bottom: 3em;
-}
+.our-services-section {
+  .our-services-title h1 {
+    color: white;
+    margin: 2rem 0;
+  }
 
-.about-title h1 {
-  text-align: center;
-  font-size: 40px;
-  font-family: "Kurale";
-}
+  .our-services-description {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    align-items: center;
+    grid-column-gap: 15px;
+    padding: 15px;
+    margin-bottom: 3em;
 
-.image-and-article-section {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-items: center;
-  align-items: center;
-  margin-bottom: 10em;
-  grid-column-gap: 15px;
-  padding: 10px;
-}
+    .our-service-card {
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      padding: 2rem;
 
-.image-and-article-section img {
-  border-radius: 10px;
-  width: 100%;
-  box-shadow: 2px 2px 10px 0px #6b6b6b;
-}
+      img {
+        width: 130px;
+        height: 130px;
+      }
 
-.image-and-article-section article {
-  font-size: 23px;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background: linear-gradient(to right, #02bbcc 20%, #0380d0);
-  padding: 20px;
-  color: white;
-  border-radius: 10px;
-  box-shadow: 2px 2px 10px 0px #6b6b6b;
-}
+      h1 {
+        font-size: 20pt;
+        margin-bottom: 2px;
+        color: darken(@light-blue, 10%);
+        margin: 1rem;
+      }
 
-.image-and-article-section article h1 {
-  font-size: 30px;
-  font-family: "Kurale";
+      p {
+        color: @dark-gray;
+        text-align: justify;
+        font-size: 15pt;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
 }
-
-.image-and-article-section article p {
-  margin-bottom: 0.9em;
-  margin-top: 0.9em;
-}
-
+/* Contact us section */
 .contact-us-section {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -403,7 +456,7 @@ export default class Home extends Vue {
 
 .contact-us-form input::placeholder,
 .contact-us-form textarea::placeholder {
-  color: #999ba7;
+  color: darken(@light-blue, 10%);
 }
 
 .contact-us-form textarea {
@@ -437,6 +490,10 @@ button#submit {
   width: 100%;
   margin-top: 10px;
   transition: all 0.3s;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 button#submit:hover,
@@ -623,44 +680,11 @@ button#submit:hover span {
   overflow: hidden;
 }
 
-.our-services-title {
-  color: white;
-}
-
-.our-services-description {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-items: center;
-  align-items: center;
-  grid-column-gap: 15px;
-  padding: 15px;
-  margin-bottom: 3em;
-}
-
-.our-service-card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 2px 2px 10px 0px #6b6b6b;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  padding: 20px;
-}
-
-.our-service-card img {
-  width: 80px;
-  height: 80px;
-}
-
-.our-service-card h1 {
-  font-size: 25px;
-  margin-bottom: 2px;
-}
-
 .section-header {
   text-align: center;
   font-size: 40px;
   font-family: "Kurale";
+  margin: 2rem 0;
 }
 
 @media only screen and (max-width: 600px) {
