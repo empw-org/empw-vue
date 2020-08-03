@@ -51,4 +51,8 @@ body,
 .full-width {
   width: 100%;
 }
+
+.swal-button {
+  .gradient();
+}
 </style>
