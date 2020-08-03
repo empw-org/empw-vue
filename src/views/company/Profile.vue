@@ -3,8 +3,8 @@
     <div class="profile-info-and-navigation">
       <div class="info-section">
         <img src="@/assets/logo/logo.png" />
-        <h2>Company Name</h2>
-        <p>company.email@example.com</p>
+        <h2>{{ company.name }}</h2>
+        <p>{{ company.email }}</p>
       </div>
 
       <div class="navigation-section">
@@ -68,11 +68,13 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
+import { mapState } from "vuex";
 
 @Component({
   components: {
     ProfileNavigationItem,
   },
+  computed: mapState("company", ["company"]),
 })
 export default class Profile extends Vue {
   onSignOut(): void {

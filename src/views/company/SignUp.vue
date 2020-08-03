@@ -122,6 +122,7 @@ import {
   max_value,
 } from "vee-validate/dist/rules";
 import { ActionTypes } from "../../store/modules/company/action-types";
+import { mapState } from "vuex";
 
 extend("email", email);
 extend("regex", regex);
@@ -139,6 +140,7 @@ extend("max_value", max_value);
     ValidationError,
     GradientButton,
   },
+  computed: mapState(["isLoading"]),
 })
 export default class SignUp extends Vue {
   REGEX = REGEX;
@@ -163,10 +165,6 @@ export default class SignUp extends Vue {
     );
   }
 
-  get isLoading(): boolean {
-    return this.$store.state.isLoading;
-  }
-
   onSignup(): void {
     const { name, email, phone_number, location, password } = this;
     const body = {
@@ -178,7 +176,7 @@ export default class SignUp extends Vue {
     };
     this.responseErrors = [];
     this.$store
-      .dispatch(ActionTypes.signup, body)
+      .dispatch(`company/${ActionTypes.signup}`, body)
       .then((r) => {
         (this as any)
           .$swal("Thank you!", r.data.message, "success")
@@ -245,6 +243,7 @@ export default class SignUp extends Vue {
   }
 
   .location-warning {
+    margin-top: 15px;
     color: @dark-gray;
     font-size: 10pt;
 

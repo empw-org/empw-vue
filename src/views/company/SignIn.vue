@@ -3,10 +3,6 @@
     <h1 class="page-title">Company - Sign in</h1>
 
     <div class="form-card">
-      <div class="errors-array-response" v-if="responseError.length">
-        <ValidationError> * {{ responseError }} </ValidationError>
-      </div>
-
       <!-- SIGN IN FORM -->
       <form id="sign-in-form" @submit.prevent="onLogin">
         <ValidationObserver v-slot="{ invalid }">
@@ -42,7 +38,7 @@
           <GradientButton
             type="submit"
             :disabled="invalid"
-            :isLoading="loading"
+            :isLoading="isLoading"
           >
             Sign in
           </GradientButton>
@@ -62,10 +58,11 @@
 <script lang="ts">
 import ValidationError from "@/components/ValidationError.vue";
 import GradientButton from "@/components/GradientButton.vue";
-import api from "@/services/api";
 import { Component, Vue } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
+import { ActionTypes } from "../../store/modules/company/action-types";
+import { mapState } from "vuex";
 
 extend("required", required);
 
@@ -76,34 +73,24 @@ extend("required", required);
     ValidationError,
     GradientButton,
   },
+  computed: mapState(["isLoading"]),
 })
 export default class SignIn extends Vue {
-  email = "";
   emailOrPhone = "";
   password = "";
   isForgetPassword = false;
-  loading = false;
-  responseError = "";
 
   onLogin(): void {
     const { emailOrPhone, password } = this;
-    this.loading = true;
-
-    api.companies
-      .login({ email: emailOrPhone, phone: emailOrPhone, password })
-      .then(async (r) => {
-        const json = r.data;
-        if (r.status < 400) {
-          // save token in localstorage
-          console.log(json);
-        } else {
-          this.responseError = r.status === 401 ? json.message : json;
-          // 500!
-        }
+    const body = { email: emailOrPhone, phone: emailOrPhone, password };
+    this.$store
+      .dispatch(`company/${ActionTypes.login}`, body)
+      .then(() => {
+        this.$router.push({ name: "company-profile" });
       })
-      .catch(console.error)
-      .finally(() => {
-        this.loading = false;
+      .catch(({ response: r }) => {
+        const responseError = r.status === 401 ? r.data.message : r.data;
+        (this as any).$swal("We are sorry!", responseError, "error");
       });
   }
 }
