@@ -89,7 +89,7 @@
             class="submit-button"
             type="submit"
             :disabled="invalid || !location"
-            :isLoading="loading"
+            :isLoading="isLoading"
             >Sign up</GradientButton
           >
         </ValidationObserver>
@@ -105,13 +105,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ValidationError from "@/components/ValidationError.vue";
 import GradientButton from "@/components/GradientButton.vue";
-import api from "@/services/api";
 import REGEX from "@/policies/regex";
 import { Component, Vue } from "vue-property-decorator";
-import VueSwal from "vue-swal";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import {
   email,
@@ -123,8 +121,7 @@ import {
   min_value,
   max_value,
 } from "vee-validate/dist/rules";
-
-Vue.use(VueSwal);
+import { ActionTypes } from "../../store/modules/company/action-types";
 
 extend("email", email);
 extend("regex", regex);
@@ -150,17 +147,14 @@ export default class SignUp extends Vue {
   phone_number = "";
   password = "";
   responseErrors = [];
-  loading = false;
   locationError = false;
-  providedLocation = false;
-  location = null;
+  location: { longitude: number; latitude: number } | null = null;
 
-  onAskForLocation() {
+  onAskForLocation(): void {
     const geoOptions = { enableHighAccuracy: true };
-    const geoSuccess = (l) => {
+    const geoSuccess = (l: any) => {
       const { longitude, latitude } = l.coords;
       this.location = { longitude, latitude };
-      console.log("got", this.location);
     };
     navigator.geolocation.getCurrentPosition(
       geoSuccess,
@@ -169,7 +163,11 @@ export default class SignUp extends Vue {
     );
   }
 
-  onSignup() {
+  get isLoading(): boolean {
+    return this.$store.state.isLoading;
+  }
+
+  onSignup(): void {
     const { name, email, phone_number, location, password } = this;
     const body = {
       name,
@@ -178,30 +176,18 @@ export default class SignUp extends Vue {
       location,
       password,
     };
-    this.loading = true;
     this.responseErrors = [];
-    api.companies
-      .signup(body)
-      .then(async (r) => {
-        const json = await r.json();
-        console.log(json);
-        if (r.ok) {
-          // continue to phone validation
-
-          this.$swal("Good job!", json.message, "success");
-        } else {
-          for (const e in json) {
-            const arr = json[e].map((err) => `${e} ${err}.`);
-            this.responseErrors.push(...arr);
-          }
-          // 500!
-        }
+    this.$store
+      .dispatch(ActionTypes.signup, body)
+      .then((r) => {
+        (this as any)
+          .$swal("Thank you!", r.data.message, "success")
+          .then(() => {
+            // redirect to home after closing the modal message
+            this.$router.push({ name: "home" });
+          });
       })
-      .catch(console.error)
-      .finally(() => {
-        this.loading = false;
-      });
-    console.log("Submitting: SIGNUP");
+      .catch((r) => (this.responseErrors = r));
   }
 }
 </script>

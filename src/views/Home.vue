@@ -209,7 +209,7 @@ export default class Home extends Vue {
       .contactUs({ email, name, message, from: "WEB" })
       .then((r) => {
         console.log(r);
-        return r.json();
+        return r.data;
       })
       .then(console.log)
       .catch(console.error);

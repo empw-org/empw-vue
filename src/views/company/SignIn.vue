@@ -92,8 +92,8 @@ export default class SignIn extends Vue {
     api.companies
       .login({ email: emailOrPhone, phone: emailOrPhone, password })
       .then(async (r) => {
-        const json = await r.json();
-        if (r.ok) {
+        const json = r.data;
+        if (r.status < 400) {
           // save token in localstorage
           console.log(json);
         } else {

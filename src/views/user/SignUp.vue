@@ -234,8 +234,8 @@ export default class SignUp extends Vue {
     api.users
       .signup(body)
       .then(async (r) => {
-        const json = await r.json();
-        if (r.ok) {
+        const json = r.data;
+        if (r.status < 400) {
           // continue to phone validation
           this.responseMessage = json.message;
           this.successfulSignup = true;
@@ -262,7 +262,7 @@ export default class SignUp extends Vue {
     api.users
       .verify({ email, phone_number, code, password })
       .then(async (r) => {
-        const json = await r.json();
+        const json = await r.data;
         // TODO: save token on succcessfull verification
         // same logic as successfull signup
         this.responseMessage = json;

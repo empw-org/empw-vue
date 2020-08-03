@@ -1,38 +1,29 @@
-const api = {
-  BASE_URI: "https://api-empw.herokuapp.com",
-  headers: {
-    "Content-Type": "application/json",
+import store from "@/store";
+import { MutationTypes as GlobalMutationTypes } from "@/store/mutation-types";
+import axios from "axios";
+
+const BASE_URL = "https://api-empw.herokuapp.com";
+
+const api = axios.create({
+  baseURL: BASE_URL,
+});
+
+api.interceptors.request.use(function (config) {
+  store.commit(GlobalMutationTypes.SET_LOADING, true);
+  return config;
+});
+
+// Add a response interceptor
+api.interceptors.response.use(
+  function (response) {
+    store.commit(GlobalMutationTypes.SET_LOADING, false);
+    return response;
   },
-  async post(endpoint: string, body: any) {
-    return await fetch(this.BASE_URI + endpoint, {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(body),
-    });
-  },
-  async get(endpoint: string) {
-    return await fetch(this.BASE_URI + endpoint);
-  },
-  async delete(endpoint: string) {
-    return await fetch(this.BASE_URI + endpoint, {
-      method: "DELETE",
-    });
-  },
-  async put(endpoint: string, body: any) {
-    return await fetch(this.BASE_URI + endpoint, {
-      method: "PUT",
-      headers: this.headers,
-      body: JSON.stringify(body),
-    });
-  },
-  async patch(endpoint: string, body: any) {
-    return await fetch(this.BASE_URI + endpoint, {
-      method: "PATCH",
-      headers: this.headers,
-      body: JSON.stringify(body),
-    });
-  },
-};
+  function (error) {
+    store.commit(GlobalMutationTypes.SET_LOADING, false);
+    return Promise.reject(error);
+  }
+);
 
 export default {
   users: {

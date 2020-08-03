@@ -109,7 +109,7 @@ export default class ResetPassword extends Vue {
       .changePassword({ token, password })
       .then((r) => {
         console.log(r);
-        return r.json();
+        return r.data;
       })
       .then(console.log)
       .catch(console.error)

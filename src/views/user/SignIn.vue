@@ -125,8 +125,8 @@ export default class SignIn extends Vue {
     api.users
       .login({ email: emailOrPhone, phone: emailOrPhone, password })
       .then(async (r) => {
-        const json = await r.json();
-        if (r.ok) {
+        const json = r.data;
+        if (r.status < 400) {
           // save token in localstorage
           console.log(json);
         } else {
@@ -146,7 +146,7 @@ export default class SignIn extends Vue {
     api.users
       .resetPassword({ email })
       .then(async (r) => {
-        this.responseError = await r.json();
+        this.responseError = r.data;
       })
       .catch(console.error)
       .finally(() => (this.loading = false));
