@@ -69,6 +69,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { mapState } from "vuex";
+import { ActionTypes } from "../../store/modules/company/action-types";
 
 @Component({
   components: {
@@ -78,7 +79,7 @@ import { mapState } from "vuex";
 })
 export default class Profile extends Vue {
   onSignOut(): void {
-    console.log("signout");
+    this.$store.dispatch(`company/${ActionTypes.logout}`);
     this.$router.push("/");
   }
 
@@ -142,6 +143,11 @@ export default class Profile extends Vue {
   }
 
   .selection-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
     .not-selected-image {
       display: flex;
       flex-direction: column;

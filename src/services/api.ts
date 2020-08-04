@@ -1,60 +1,71 @@
 import store from "@/store";
 import { MutationTypes as GlobalMutationTypes } from "@/store/mutation-types";
 import axios from "axios";
+import { ActionTypes } from "@/store/modules/company/action-types";
 
 const BASE_URL = "https://api-empw.herokuapp.com";
 
-const api = axios.create({
-  baseURL: BASE_URL,
-});
+axios.defaults.baseURL = BASE_URL;
 
-api.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function (config) {
   store.commit(GlobalMutationTypes.SET_LOADING, true);
   return config;
 });
 
 // Add a response interceptor
-api.interceptors.response.use(
+axios.interceptors.response.use(
   function (response) {
     store.commit(GlobalMutationTypes.SET_LOADING, false);
     return response;
   },
   function (error) {
+    const isLoggedIn = !!localStorage.getItem("loggedIn");
     store.commit(GlobalMutationTypes.SET_LOADING, false);
+    if (isLoggedIn && error.response.status === 401) {
+      store.dispatch(`company/${ActionTypes.logout}`);
+    }
     return Promise.reject(error);
   }
 );
 
 export default {
   users: {
-    async login(body: any) {
-      return await api.post("/users/login", body);
+    login(body: any) {
+      return axios.post("/users/login", body);
     },
-    async signup(body: any) {
-      return await api.post("/users/signup", body);
+    signup(body: any) {
+      return axios.post("/users/signup", body);
     },
-    async verify(body: any) {
-      return await api.patch("/users/verify", body);
+    verify(body: any) {
+      return axios.patch("/users/verify", body);
     },
-    async changePassword(body: any) {
-      return await api.patch("/users/password", body);
+    changePassword(body: any) {
+      return axios.patch("/users/password", body);
     },
-    async resetPassword(body: any) {
-      return await api.post("/users/reset-password", body);
+    resetPassword(body: any) {
+      return axios.post("/users/reset-password", body);
     },
   },
   companies: {
-    async login(body: any) {
-      return await api.post("/companies/login", body);
+    login(body: any) {
+      return axios.post("/companies/login", body);
     },
-    async signup(body: any) {
-      return await api.post("/companies/signup", body);
+    signup(body: any) {
+      return axios.post("/companies/signup", body);
     },
-    async getAssignedOrders() {
-      return await api.get("/water_orders");
+    waterOrdersStatistics() {
+      return axios.get("/company/statistics");
+    },
+    getAssignedOrders() {
+      return axios.get("/water_orders", {
+        headers: { "content-type": "application/json" },
+      });
+    },
+    markOrderAsReadyForShipping(order_id: string) {
+      return axios.patch(`/water_orders/${order_id}/ready_for_shipping`);
     },
   },
-  async contactUs(body: any) {
-    return await api.post("/contact_us", body);
+  contactUs(body: any) {
+    return axios.post("/contact_us", body);
   },
 };

@@ -32,6 +32,7 @@ const routes = [
     path: "/get-started",
     name: "get-started",
     component: GetStarted,
+    meta: { notForAuthed: true },
   },
   {
     path: "/user/signin",
@@ -52,16 +53,19 @@ const routes = [
     path: "/company/signin",
     name: "company-signin",
     component: CompanySignIn,
+    meta: { notForAuthed: true },
   },
   {
     path: "/company/signup",
     name: "company-signup",
     component: CompanySignUp,
+    meta: { notForAuthed: true },
   },
   {
     path: "/company/profile",
     name: "company-profile",
     component: CompanyProfile,
+    meta: { requiresAuth: true },
     children: [
       {
         path: "water-orders",
@@ -92,6 +96,15 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem("loggedIn");
+  if (!loggedIn && to.matched.some((record) => record.meta.requiresAuth))
+    next("/");
+  if (loggedIn && to.matched.some((record) => record.meta.notForAuthed))
+    next("/company/profile"); // TODO: change to suite user and company
+  next();
 });
 
 export default router;
