@@ -23,7 +23,7 @@
       <section class="about-section">
         <div class="about-section-container">
           <div class="about-image">
-            <img src="@/assets/images/family-drinking.jpg" />
+            <img src="@/assets/images/about-image.jpg" />
           </div>
 
           <div class="about-text">
@@ -425,33 +425,35 @@ export default class Home extends Vue {
   background-color: white;
   border-radius: 15px;
   margin: 20px 0 30px 0;
-}
 
-.contact-us-image {
-  width: 100%;
-  height: 100%;
-}
+  .contact-us-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 15px;
 
-.contact-us-image img {
-  width: 100%;
-  height: 100%;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  padding: 0 3rem;
+    .form-wrapper {
+      width: 80%;
+    }
+  }
+
+  .contact-us-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 70%;
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+      padding: 0 3rem;
+    }
+  }
 }
 
 /*Form*/
-
-.contact-us-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 25px 15px;
-}
-
-.form-wrapper {
-  width: 80%;
-}
 
 .contact-us-form input,
 .contact-us-form textarea {
