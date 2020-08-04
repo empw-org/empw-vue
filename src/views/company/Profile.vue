@@ -2,7 +2,7 @@
   <div class="profile-container">
     <div class="profile-info-and-navigation">
       <div class="info-section">
-        <img src="@/assets/logo/logo.png" />
+        <img src="@/assets/images/company.svg" />
         <h2>{{ company.name }}</h2>
         <p>{{ company.email }}</p>
       </div>
