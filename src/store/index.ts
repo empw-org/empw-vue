@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import * as company from "@/store/modules/company/company-user";
 
+import * as admin from "@/store/modules/admin/admin";
 import { GlobalMutationTypes } from "@/store/mutation-types";
 
 Vue.use(Vuex);
@@ -19,5 +20,6 @@ export default new Vuex.Store({
   getters: {},
   modules: {
     company,
+    admin,
   },
 });
