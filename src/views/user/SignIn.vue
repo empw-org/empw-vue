@@ -99,6 +99,8 @@ import api from "@/services/api";
 import { Component, Vue } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
+import { mapState } from "vuex";
+import { AccountActionTypes } from "@/store/account-action-types";
 
 extend("required", required);
 
@@ -109,6 +111,7 @@ extend("required", required);
     ValidationError,
     GradientButton,
   },
+  computed: mapState(["isLoading"]),
 })
 export default class SignIn extends Vue {
   email = "";

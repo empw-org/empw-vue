@@ -61,7 +61,7 @@ import GradientButton from "@/components/GradientButton.vue";
 import { Component, Vue } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
-import { ActionTypes } from "../../store/modules/company/action-types";
+import { AccountActionTypes } from "@/store/account-action-types";
 import { mapState } from "vuex";
 
 extend("required", required);
@@ -84,7 +84,7 @@ export default class SignIn extends Vue {
     const { emailOrPhone, password } = this;
     const body = { email: emailOrPhone, phone: emailOrPhone, password };
     this.$store
-      .dispatch(`company/${ActionTypes.login}`, body)
+      .dispatch(`company/${AccountActionTypes.login}`, body)
       .then(() => {
         this.$router.push({ name: "company-profile" });
       })

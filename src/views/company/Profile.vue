@@ -69,7 +69,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { mapState } from "vuex";
-import { ActionTypes } from "../../store/modules/company/action-types";
+import { AccountActionTypes } from "@/store/account-action-types";
 
 @Component({
   components: {
@@ -79,7 +79,7 @@ import { ActionTypes } from "../../store/modules/company/action-types";
 })
 export default class Profile extends Vue {
   onSignOut(): void {
-    this.$store.dispatch(`company/${ActionTypes.logout}`);
+    this.$store.dispatch(`company/${AccountActionTypes.logout}`);
     this.$router.push("/");
   }
 

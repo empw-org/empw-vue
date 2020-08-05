@@ -121,7 +121,7 @@ import {
   min_value,
   max_value,
 } from "vee-validate/dist/rules";
-import { ActionTypes } from "../../store/modules/company/action-types";
+import { AccountActionTypes } from "@/store/account-action-types";
 import { mapState } from "vuex";
 
 extend("email", email);
@@ -176,7 +176,7 @@ export default class SignUp extends Vue {
     };
     this.responseErrors = [];
     this.$store
-      .dispatch(`company/${ActionTypes.signup}`, body)
+      .dispatch(`company/${AccountActionTypes.signup}`, body)
       .then((r) => {
         (this as any)
           .$swal("Thank you!", r.data.message, "success")

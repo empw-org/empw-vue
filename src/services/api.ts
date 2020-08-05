@@ -1,9 +1,10 @@
 import store from "@/store";
 import { MutationTypes as GlobalMutationTypes } from "@/store/mutation-types";
 import axios from "axios";
-import { ActionTypes } from "@/store/modules/company/action-types";
+import { AccountActionTypes } from "@/store/account-action-types";
 
 const BASE_URL = "https://api-empw.herokuapp.com";
+// const BASE_URL = "http://localhost:3000";
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -22,7 +23,7 @@ axios.interceptors.response.use(
     store.commit(GlobalMutationTypes.SET_LOADING, false);
     const loggedIn = localStorage.getItem("loggedIn");
     if (loggedIn && error.response?.status === 401) {
-      store.dispatch(`${loggedIn.toLowerCase()}/${ActionTypes.logout}`);
+      store.dispatch(`${loggedIn.toLowerCase()}/${AccountActionTypes.logout}`);
     }
     return Promise.reject(error);
   }
