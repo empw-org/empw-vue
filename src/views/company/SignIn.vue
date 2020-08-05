@@ -128,13 +128,13 @@ export default class SignIn extends Vue {
         margin-top: 10px;
 
         &::placeholder {
-          color: darken(@light-blue, 10%);
+          color: @gray;
           opacity: 0.6;
         }
 
         &:focus {
           outline: none;
-          border: 1px solid darken(@light-blue, 10%);
+          border: 1px solid @gray;
           box-sizing: border-box;
         }
       }

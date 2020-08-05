@@ -119,22 +119,29 @@
         <div class="contact-us-form">
           <div class="form-wrapper">
             <form id="contact-us-form" @submit.prevent="onSubmit">
-              <input
-                type="text"
-                id="name"
-                name="name"
-                v-model="name"
-                placeholder="Name"
-                required
-              />
-              <input
-                type="email"
-                id="email"
-                name="email"
-                v-model="email"
-                placeholder="Email"
-                required
-              />
+              <div class="ui left icon input fluid">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  v-model="name"
+                  placeholder="Name"
+                  required
+                />
+                <i class="user icon colored-icon"></i>
+              </div>
+
+              <div class="ui left icon input fluid">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  v-model="email"
+                  placeholder="Email"
+                  required
+                />
+                <i class="envelope icon colored-icon"></i>
+              </div>
               <textarea
                 name="message"
                 v-model="message"
@@ -144,7 +151,7 @@
               ></textarea>
               <GradientButton id="submit" type="submit" :isLoading="isLoading">
                 <span>Submit</span>
-                <i class="fas fa-paper-plane"></i>
+                <i class="paper plane icon"></i>
               </GradientButton>
             </form>
             <div class="or-separator">
@@ -157,23 +164,23 @@
                 <div class="contact-us-text">Contact Us</div>
                 <div class="contact-us-overlay"></div>
                 <div class="contact-us-links">
-                  <a href="#" class="contact-us-link">
-                    <i class="fab fa-facebook-f"></i>
+                  <a href="#" class="contact-us-link"
+                    ><i class="facebook icon"></i>
                   </a>
 
-                  <a href="#" class="contact-us-link">
-                    <i class="fab fa-twitter"></i>
-                  </a>
+                  <a href="#" class="contact-us-link"
+                    ><i class="twitter icon"></i
+                  ></a>
 
-                  <a href="#" class="contact-us-link">
-                    <i
-                      class="fab fa-whatsapp"
+                  <a href="#" class="contact-us-link"
+                    ><i
+                      class="whatsapp icon"
                       style="font-weight: 600; font-size: 18px;"
-                    ></i>
-                  </a>
+                    ></i
+                  ></a>
 
-                  <a href="#" class="contact-us-link">
-                    <i class="fas fa-envelope"></i>
+                  <a href="#" class="contact-us-link"
+                    ><i class="envelope icon"></i>
                   </a>
                 </div>
               </div>
@@ -188,7 +195,7 @@
 
       <div class="flex social-btns">
         <a class="app-btn blu flex vert" href="#">
-          <i class="fab fa-apple"></i>
+          <i class="apple icon"></i>
           <p>
             Available on the
             <br />
@@ -197,7 +204,7 @@
         </a>
 
         <a class="app-btn blu flex vert" href="#">
-          <i class="fab fa-google-play"></i>
+          <i class="google play icon"></i>
           <p>
             Get it on
             <br />
@@ -344,7 +351,7 @@ export default class Home extends Vue {
       padding: 3rem;
 
       h1 {
-        color: darken(@light-blue, 10%);
+        color: @gray;
         margin: 2rem 0;
         font-size: 30pt;
         font-family: "Kurale";
@@ -405,7 +412,7 @@ export default class Home extends Vue {
       h1 {
         font-size: 20pt;
         margin-bottom: 2px;
-        color: darken(@light-blue, 10%);
+        color: @gray;
         margin: 1rem;
       }
 
@@ -456,12 +463,13 @@ export default class Home extends Vue {
 /*Form*/
 
 .contact-us-form input,
-.contact-us-form textarea {
+.contact-us-form textarea,
+.contact-us-form input:focus {
   display: block;
   width: 100%;
   border: none;
   border-radius: 30px;
-  background-color: #ebeff2;
+  background-color: @light-gray;
   padding: 15px 15px 15px 50px;
   margin-top: 10px;
 }
@@ -473,7 +481,7 @@ export default class Home extends Vue {
 
 .contact-us-form input::placeholder,
 .contact-us-form textarea::placeholder {
-  color: darken(@light-blue, 10%);
+  color: @light-blue;
 }
 
 .contact-us-form textarea {
@@ -482,18 +490,17 @@ export default class Home extends Vue {
   padding: 20px;
 }
 
-input#name {
-  background-image: url("../assets/icons/user.svg");
-  background-repeat: no-repeat;
-  background-position: 15px;
-  background-size: 20px 20px;
+.colored-icon {
+  margin-top: unset;
+  line-height: 10px;
+  color: #008e9b;
 }
 
-input#email {
-  background-image: url("../assets/icons/mail.svg");
-  background-repeat: no-repeat;
-  background-position: 15px;
-  background-size: 15px 15px;
+.ui.icon.input > i.icon {
+  line-height: 10px;
+  &::before {
+    margin-top: 0;
+  }
 }
 
 button#submit {
@@ -507,6 +514,7 @@ button#submit {
   width: 100%;
   margin-top: 10px;
   transition: all 0.3s;
+  height: 60px;
 
   &:focus {
     outline: none;

@@ -20,6 +20,11 @@ export default class App extends Vue {}
 <style lang="less">
 @import "@/assets/variables";
 
+i.icon {
+  margin: unset;
+  height: unset;
+}
+
 * {
   margin: 0;
   padding: 0;

@@ -15,14 +15,14 @@
         </li>
         <li class="language">
           <a href="#">
-            <img src="@/assets/icons/globe.svg" alt="Language" />
+            <i class="icon globe"></i>
             <div id="ar-language">ع</div>
           </a>
         </li>
       </ul>
 
       <div class="hamburger-icon">
-        <i class="fas fa-bars"></i>
+        <i class="bars icon"></i>
       </div>
     </div>
   </nav>

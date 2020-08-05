@@ -12,7 +12,7 @@
           <li>
             <router-link :to="{ name: 'company-water-orders' }">
               <ProfileNavigationItem path="water-orders">
-                <i slot="icon" class="fas fa-hand-holding-water"></i>
+                <i slot="icon" class="tint icon"></i>
                 <span slot="text">Water Orders</span>
               </ProfileNavigationItem>
             </router-link>
@@ -21,7 +21,7 @@
           <li>
             <router-link :to="{ name: 'company-statistics' }">
               <ProfileNavigationItem path="statistics">
-                <i slot="icon" class="fas fa-chart-bar"></i>
+                <i slot="icon" class="chart bar icon"></i>
                 <span slot="text">Statistics</span>
               </ProfileNavigationItem>
             </router-link>
@@ -30,7 +30,7 @@
           <li>
             <router-link :to="{ name: 'company-map' }">
               <ProfileNavigationItem path="map">
-                <i slot="icon" class="fas fa-map-marked-alt"></i>
+                <i slot="icon" class="map icon"></i>
                 <span slot="text">Map</span>
               </ProfileNavigationItem>
             </router-link>
@@ -39,7 +39,7 @@
           <li>
             <router-link :to="{ name: 'company-edit-profile' }">
               <ProfileNavigationItem path="edit-profile">
-                <i slot="icon" class="fas fa-edit"></i>
+                <i slot="icon" class="edit icon"></i>
                 <span slot="text">Edit profile</span>
               </ProfileNavigationItem>
             </router-link>
@@ -47,7 +47,7 @@
 
           <li @click="onSignOut">
             <ProfileNavigationItem path="sign-out">
-              <i slot="icon" class="fas fa-door-open"></i>
+              <i slot="icon" class="sign-out icon"></i>
               <span slot="text">Sign out</span>
             </ProfileNavigationItem>
           </li>
