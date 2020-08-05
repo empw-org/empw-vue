@@ -81,6 +81,38 @@ export default {
       return axios.patch("/company", body);
     },
   },
+  admins: {
+    login(body: any) {
+      return axios.post("/admins/login", body);
+    },
+    getCompanies() {
+      return axios.get("/companies/");
+    },
+    approveCompany(company_id: string) {
+      return axios.patch(`/companies/${company_id}/approve`);
+    },
+    deleteCompany(company_id: string) {
+      return axios.delete(`/companies/${company_id}`);
+    },
+    getTransporters() {
+      return axios.get("/transporters/");
+    },
+    approveTransporter(transporter_id: string) {
+      return axios.patch(`/transporters/${transporter_id}/approve`);
+    },
+    deleteTransporter(company_id: string) {
+      return axios.delete(`/transporters/${company_id}`);
+    },
+    getSensors() {
+      return axios.get("/sensors");
+    },
+    createNewSensor(body: any) {
+      return axios.post("/sensors", body);
+    },
+    deleteSensor(sensor_id: string) {
+      return axios.delete(`/sensors/${sensor_id}`);
+    },
+  },
   contactUs(body: any) {
     return axios.post("/contact_us", body);
   },
