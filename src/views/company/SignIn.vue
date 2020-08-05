@@ -78,7 +78,6 @@ extend("required", required);
 export default class SignIn extends Vue {
   emailOrPhone = "";
   password = "";
-  isForgetPassword = false;
 
   onLogin(): void {
     const { emailOrPhone, password } = this;
