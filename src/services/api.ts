@@ -74,6 +74,12 @@ export default {
     markOrderAsReadyForShipping(order_id: string) {
       return axios.patch(`/water_orders/${order_id}/ready_for_shipping`);
     },
+    getProfile() {
+      return axios.get("/company");
+    },
+    editProfile(body: any) {
+      return axios.patch("/company", body);
+    },
   },
   contactUs(body: any) {
     return axios.post("/contact_us", body);
