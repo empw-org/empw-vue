@@ -1,5 +1,5 @@
 import api from "@/services/api";
-import { MutationTypes } from "./mutation-types";
+import { CompanyMutationTypes } from "./mutation-types";
 import handleValidationErrors from "@/store/handle-validation-errors";
 import Axios from "axios";
 
@@ -11,15 +11,19 @@ export const state = {
 };
 
 export const mutations = {
-  [MutationTypes.SET_COMPANY_DATA](state: any, payload: any): void {
-    localStorage.setItem("companyData", JSON.stringify(payload));
+  [CompanyMutationTypes.SET_COMPANY_TOKEN](state: any, token: string): void {
+    localStorage.setItem("companyToken", token);
     localStorage.setItem("loggedIn", "COMPANY");
-    state.company = payload.company;
-    state.token = payload.token;
-    Axios.defaults.headers.common["Authorization"] = `Bearer ${payload.token}`;
+    state.token = token;
+    Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   },
-  [MutationTypes.CLEAR_COMPANY_DATA](): void {
+  [CompanyMutationTypes.SET_COMPANY_DATA](state: any, payload: any): void {
+    localStorage.setItem("companyData", JSON.stringify(payload));
+    state.company = payload;
+  },
+  [CompanyMutationTypes.CLEAR_COMPANY_DATA](): void {
     localStorage.removeItem("companyData");
+    localStorage.removeItem("companyToken");
     localStorage.removeItem("loggedIn");
     location.reload(); // cleares any data saved in the state
   },
@@ -33,11 +37,12 @@ export const actions = {
   },
   login({ commit }: any, credentials: any): any {
     return api.companies.login(credentials).then((r) => {
-      commit(MutationTypes.SET_COMPANY_DATA, r.data);
+      commit(CompanyMutationTypes.SET_COMPANY_DATA, r.data.company);
+      commit(CompanyMutationTypes.SET_COMPANY_TOKEN, r.data.token);
     });
   },
   logout({ commit }: any): void {
-    commit(MutationTypes.CLEAR_COMPANY_DATA);
+    commit(CompanyMutationTypes.CLEAR_COMPANY_DATA);
   },
 };
 
