@@ -76,7 +76,10 @@
             </ValidationProvider>
           </div>
 
-          <GradientButton type="submit" :disabled="invalid" :isLoading="loading"
+          <GradientButton
+            type="submit"
+            :disabled="invalid"
+            :isLoading="isLoading"
             >Sign in</GradientButton
           >
         </ValidationObserver>
@@ -118,41 +121,34 @@ export default class SignIn extends Vue {
   emailOrPhone = "";
   password = "";
   isForgetPassword = false;
-  loading = false;
   responseError = "";
 
   onLogin(): void {
     const { emailOrPhone, password } = this;
-    this.loading = true;
+    const body = { email: emailOrPhone, phone: emailOrPhone, password };
 
-    api.users
-      .login({ email: emailOrPhone, phone: emailOrPhone, password })
-      .then(async (r) => {
-        const json = r.data;
-        if (r.status < 400) {
-          // save token in localstorage
-          console.log(json);
-        } else {
-          this.responseError = r.status === 401 ? json.message : json;
-          // 500!
-        }
+    this.$store
+      .dispatch(`user/${AccountActionTypes.login}`, body)
+      .then(() => {
+        this.$router.push({ name: "user-profile" });
       })
-      .catch(console.error)
-      .finally(() => {
-        this.loading = false;
+      .catch(({ response: r }) => {
+        const responseError = r.status === 401 ? r.data.message : r.data;
+        (this as any).$swal("We are sorry!", responseError, "error");
       });
   }
 
   onResetPassword(): void {
     const { email } = this;
-    this.loading = true;
     api.users
       .resetPassword({ email })
-      .then(async (r) => {
-        this.responseError = r.data;
+      .then((r) => {
+        console.log(r.data);
       })
-      .catch(console.error)
-      .finally(() => (this.loading = false));
+      .catch(({ response: r }) => {
+        const responseError = r.status === 401 ? r.data.message : r.data;
+        (this as any).$swal("We are sorry!", responseError, "error");
+      });
   }
 }
 </script>
@@ -189,13 +185,13 @@ export default class SignIn extends Vue {
         margin-top: 10px;
 
         &::placeholder {
-          color: darken(@light-blue, 10%);
+          color: @gray;
           opacity: 0.6;
         }
 
         &:focus {
           outline: none;
-          border: 1px solid darken(@light-blue, 10%);
+          border: 1px solid @gray;
           box-sizing: border-box;
         }
       }
