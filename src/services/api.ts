@@ -45,6 +45,18 @@ export default {
     resetPassword(body: any) {
       return axios.post("/users/reset-password", body);
     },
+    getProfile() {
+      return axios.get("/user");
+    },
+    editProfile(body: any) {
+      return axios.patch("/user", body);
+    },
+    getMyWaterOrders() {
+      return axios.get("/water_orders");
+    },
+    createNewWaterOrder(body: any) {
+      return axios.post("/water_orders", body);
+    },
   },
   companies: {
     login(body: any) {
