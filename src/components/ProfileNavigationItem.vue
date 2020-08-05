@@ -27,6 +27,7 @@ export default class GradientButton extends Vue {
   padding: 0.75rem 1rem;
   border-radius: 2em;
   color: @dark-gray;
+  font-size: 1.2rem;
 
   .icon {
     display: inline-block;
