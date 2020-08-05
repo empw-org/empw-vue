@@ -7,6 +7,10 @@ import PageNotFound from "@/views/PageNotFound.vue";
 import ResetPassword from "@/views/user/ResetPassword.vue";
 import UserSignIn from "@/views/user/SignIn.vue";
 import UserSignUp from "@/views/user/SignUp.vue";
+import UserProfile from "@/views/user/Profile.vue";
+import UserWaterOrders from "@/views/user/profile-views/WaterOrders.vue";
+import UserNewWaterOrder from "@/views/user/profile-views/NewWaterOrder.vue";
+import UserEditProfile from "@/views/user/profile-views/EditProfile.vue";
 import CompanySignIn from "@/views/company/SignIn.vue";
 import CompanySignUp from "@/views/company/SignUp.vue";
 import CompanyProfile from "@/views/company/Profile.vue";
@@ -14,6 +18,11 @@ import CompanyWaterOrders from "@/views/company/profile-views/WaterOrders.vue";
 import CompanyStatistics from "@/views/company/profile-views/Statistics.vue";
 import CompanyMap from "@/views/company/profile-views/Map.vue";
 import CompanyEditProfile from "@/views/company/profile-views/EditProfile.vue";
+import AdminDashboard from "@/views/admin/Dashboard.vue";
+import AdminLogin from "@/views/admin/Login.vue";
+import AdminCompanies from "@/views/admin/Companies.vue";
+import AdminTransporters from "@/views/admin/Transporters.vue";
+import AdminSensors from "@/views/admin/Sensors.vue";
 
 Vue.use(VueRouter);
 
@@ -89,6 +98,58 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/user/profile",
+    name: "user-profile",
+    component: UserProfile,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "new-water-order",
+        name: "user-new-water-order",
+        component: UserNewWaterOrder,
+      },
+      {
+        path: "water-orders",
+        name: "user-water-orders",
+        component: UserWaterOrders,
+      },
+      {
+        path: "edit-profile",
+        name: "user-edit-profile",
+        component: UserEditProfile,
+      },
+    ],
+  },
+  {
+    path: "/admin/login",
+    name: "admin-login",
+    component: AdminLogin,
+    meta: { notForAuthed: true },
+  },
+  {
+    path: "/admin/dashboard",
+    name: "admin-dashboard",
+    component: AdminDashboard,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "companies",
+        name: "admin-companies",
+        component: AdminCompanies,
+      },
+      {
+        path: "transporters",
+        name: "admin-transporters",
+        component: AdminTransporters,
+      },
+      {
+        path: "sensors",
+        name: "admin-sensors",
+        component: AdminSensors,
+      },
+    ],
+  },
   { path: "*", component: PageNotFound },
 ];
 
@@ -103,7 +164,8 @@ router.beforeEach((to, from, next) => {
   if (!loggedIn && to.matched.some((record) => record.meta.requiresAuth))
     next("/");
   if (loggedIn && to.matched.some((record) => record.meta.notForAuthed))
-    next("/company/profile"); // TODO: change to suite user and company
+    if (loggedIn === "ADMIN") next(`/${loggedIn.toLowerCase()}/dashboard`);
+    else next(`/${loggedIn.toLowerCase()}/profile`);
   next();
 });
 
