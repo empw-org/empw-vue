@@ -60,7 +60,7 @@
         <img src="@/assets/images/company-dashboard.svg" alt="" width="80%" />
         <h1>Company Dashboard</h1>
       </div>
-      <router-view v-else></router-view>
+      <router-view class="ui container" v-else></router-view>
     </div>
   </div>
 </template>
@@ -99,11 +99,10 @@ export default class Profile extends Vue {
   min-height: calc(100% - @header-height);
 
   .profile-info-and-navigation {
-    display: grid;
-    grid-template-rows: 1fr 2fr;
     border: 1px solid @gray-border-color;
 
     .info-section {
+      height: 300px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -130,7 +129,7 @@ export default class Profile extends Vue {
     }
 
     .navigation-section {
-      padding: 3rem;
+      padding: 2rem;
 
       ul {
         list-style: none;
