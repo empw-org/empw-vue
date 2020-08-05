@@ -19,10 +19,10 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    const isLoggedIn = !!localStorage.getItem("loggedIn");
     store.commit(GlobalMutationTypes.SET_LOADING, false);
-    if (isLoggedIn && error.response.status === 401) {
-      store.dispatch(`company/${ActionTypes.logout}`);
+    const loggedIn = localStorage.getItem("loggedIn");
+    if (loggedIn && error.response?.status === 401) {
+      store.dispatch(`${loggedIn.toLowerCase()}/${ActionTypes.logout}`);
     }
     return Promise.reject(error);
   }
