@@ -225,6 +225,7 @@ import api from "@/services/api";
 import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 import GradientButton from "../components/GradientButton.vue";
+import handleValidationErrors from "../store/handle-validation-errors";
 
 @Component({
   components: { GradientButton },
@@ -242,10 +243,10 @@ export default class Home extends Vue {
       .then(() => {
         (this as any).$swal("Thank You!", "We got your message", "success");
       })
-      .catch(() => {
+      .catch((e) => {
         (this as any).$swal(
           "Error!",
-          "Something went wrong. We couldn't send your message",
+          handleValidationErrors(e.response.data).join(" "),
           "error"
         );
       });
