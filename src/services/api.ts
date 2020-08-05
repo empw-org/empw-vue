@@ -1,5 +1,5 @@
 import store from "@/store";
-import { MutationTypes as GlobalMutationTypes } from "@/store/mutation-types";
+import { GlobalMutationTypes } from "@/store/mutation-types";
 import axios from "axios";
 import { AccountActionTypes } from "@/store/account-action-types";
 

@@ -1,7 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import * as company from "@/store/modules/company/company-user";
-import { MutationTypes } from "./mutation-types";
+
+import { GlobalMutationTypes } from "@/store/mutation-types";
 
 Vue.use(Vuex);
 
@@ -10,7 +11,7 @@ export default new Vuex.Store({
     isLoading: false,
   },
   mutations: {
-    [MutationTypes.SET_LOADING](state, isLoading: boolean) {
+    [GlobalMutationTypes.SET_LOADING](state, isLoading: boolean) {
       state.isLoading = isLoading;
     },
   },
