@@ -524,7 +524,6 @@ button#submit {
 
 button#submit:hover,
 button#contact-us:hover {
-  cursor: pointer;
   .gradient-reverse();
 }
 
