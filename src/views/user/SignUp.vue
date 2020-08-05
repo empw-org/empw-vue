@@ -154,7 +154,7 @@
             class="submit-button"
             type="submit"
             :disabled="invalid"
-            :isLoading="loading"
+            :isLoading="isLoading"
             >Sign up</GradientButton
           >
         </ValidationObserver>
@@ -187,6 +187,8 @@ import {
   min_value,
   max_value,
 } from "vee-validate/dist/rules";
+import { mapState } from "vuex";
+import handleValidationErrors from "@/store/handle-validation-errors";
 
 extend("email", email);
 extend("regex", regex);
@@ -204,6 +206,7 @@ extend("max_value", max_value);
     ValidationError,
     GradientButton,
   },
+  computed: mapState(["isLoading"]),
 })
 export default class SignUp extends Vue {
   REGEX = REGEX;
@@ -216,7 +219,6 @@ export default class SignUp extends Vue {
   verificationCode = "";
   responseMessage = "";
   responseErrors: string[] = [];
-  loading = false;
   successfulSignup = false;
 
   onSignup(): void {
@@ -229,36 +231,21 @@ export default class SignUp extends Vue {
       salary,
       password,
     };
-    this.loading = true;
 
     api.users
       .signup(body)
       .then(async (r) => {
-        const json = r.data;
-        if (r.status < 400) {
-          // continue to phone validation
-          this.responseMessage = json.message;
-          this.successfulSignup = true;
-        } else {
-          this.responseErrors = [];
-          for (const e in json) {
-            const arr = json[e].map((err: string) => `${e} ${err}.`);
-            this.responseErrors.push(...arr);
-          }
-          // 500!
-        }
+        this.responseMessage = r.data;
+        this.successfulSignup = true;
       })
-      .catch(console.error)
-      .finally(() => {
-        this.loading = false;
-      });
-    console.log("Submitting: SIGNUP");
+      .catch(
+        (r) => (this.responseErrors = handleValidationErrors(r.response.data))
+      );
   }
 
   onVerify(): void {
     const { email, phone_number, verificationCode: code, password } = this;
 
-    this.loading = true;
     api.users
       .verify({ email, phone_number, code, password })
       .then(async (r) => {
@@ -269,11 +256,7 @@ export default class SignUp extends Vue {
         console.log(r.status);
         console.log(json);
       })
-      .catch(console.error)
-      .finally(() => {
-        this.loading = false;
-      });
-    console.log("Submitting: VERIFY");
+      .catch(console.error);
   }
 }
 </script>
@@ -321,13 +304,13 @@ export default class SignUp extends Vue {
         margin-top: 10px;
 
         &::placeholder {
-          color: darken(@light-blue, 10%);
+          color: @gray;
           opacity: 0.6;
         }
 
         &:focus {
           outline: none;
-          border: 1px solid darken(@light-blue, 10%);
+          border: 1px solid @gray;
           box-sizing: border-box;
         }
       }
