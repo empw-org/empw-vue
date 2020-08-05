@@ -57,9 +57,7 @@ export default {
       return axios.get("/company/statistics");
     },
     getAssignedOrders() {
-      return axios.get("/water_orders", {
-        headers: { "content-type": "application/json" },
-      });
+      return axios.get("/water_orders");
     },
     markOrderAsReadyForShipping(order_id: string) {
       return axios.patch(`/water_orders/${order_id}/ready_for_shipping`);
