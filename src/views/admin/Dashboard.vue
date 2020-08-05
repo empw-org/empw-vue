@@ -36,6 +36,15 @@
             </router-link>
           </li>
 
+          <li>
+            <router-link :to="{ name: 'admin-contact-us' }">
+              <ProfileNavigationItem path="contact-us">
+                <i slot="icon" class="address card icon"></i>
+                <span slot="text">Contact Us</span>
+              </ProfileNavigationItem>
+            </router-link>
+          </li>
+
           <li @click="onSignOut">
             <ProfileNavigationItem path="sign-out">
               <i slot="icon" class="sign-out icon"></i>

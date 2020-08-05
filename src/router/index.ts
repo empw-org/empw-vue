@@ -23,6 +23,7 @@ import AdminLogin from "@/views/admin/Login.vue";
 import AdminCompanies from "@/views/admin/Companies.vue";
 import AdminTransporters from "@/views/admin/Transporters.vue";
 import AdminSensors from "@/views/admin/Sensors.vue";
+import AdminContactUs from "@/views/admin/ContactUs.vue";
 
 Vue.use(VueRouter);
 
@@ -147,6 +148,11 @@ const routes = [
         path: "sensors",
         name: "admin-sensors",
         component: AdminSensors,
+      },
+      {
+        path: "contact-us",
+        name: "admin-contact-us",
+        component: AdminContactUs,
       },
     ],
   },

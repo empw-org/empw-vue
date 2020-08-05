@@ -113,6 +113,9 @@ export default {
     deleteSensor(sensor_id: string) {
       return axios.delete(`/sensors/${sensor_id}`);
     },
+    getContactUsMessages() {
+      return axios.get("/contact_us");
+    },
   },
   contactUs(body: any) {
     return axios.post("/contact_us", body);
