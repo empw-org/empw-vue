@@ -85,7 +85,7 @@ export default class AdminDashboard extends Vue {
 
   get navigationNotSelected(): boolean {
     const path = this.$route.name;
-    return path === "admin-dashboard";
+    return path === "admin-profile";
   }
 }
 </script>

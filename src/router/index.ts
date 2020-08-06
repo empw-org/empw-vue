@@ -49,11 +49,13 @@ const routes = [
     path: "/user/signin",
     name: "user-signin",
     component: UserSignIn,
+    meta: { notForAuthed: true },
   },
   {
     path: "/user/signup",
     name: "user-signup",
     component: UserSignUp,
+    meta: { notForAuthed: true },
   },
   {
     path: "/user/reset-password",
@@ -76,7 +78,7 @@ const routes = [
     path: "/company/profile",
     name: "company-profile",
     component: CompanyProfile,
-    meta: { requiresAuth: true },
+    meta: { onlyFor: "COMPANY" },
     children: [
       {
         path: "water-orders",
@@ -104,7 +106,7 @@ const routes = [
     path: "/user/profile",
     name: "user-profile",
     component: UserProfile,
-    meta: { requiresAuth: true },
+    meta: { onlyFor: "USER" },
     children: [
       {
         path: "new-water-order",
@@ -129,16 +131,16 @@ const routes = [
     ],
   },
   {
-    path: "/admin/login",
-    name: "admin-login",
+    path: "/admin/signin",
+    name: "admin-signin",
     component: AdminLogin,
     meta: { notForAuthed: true },
   },
   {
-    path: "/admin/dashboard",
-    name: "admin-dashboard",
+    path: "/admin/profile",
+    name: "admin-profile",
     component: AdminDashboard,
-    meta: { requiresAuth: true },
+    meta: { onlyFor: "ADMIN" },
     children: [
       {
         path: "companies",
@@ -171,13 +173,19 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem("loggedIn");
-  if (!loggedIn && to.matched.some((record) => record.meta.requiresAuth))
-    next("/");
-  if (loggedIn && to.matched.some((record) => record.meta.notForAuthed))
-    if (loggedIn === "ADMIN") next(`/${loggedIn.toLowerCase()}/dashboard`);
-    else next(`/${loggedIn.toLowerCase()}/profile`);
+router.beforeEach((to, _, next) => {
+  const userType = localStorage.getItem("userType");
+  if (!userType && to.matched.some((record) => record.meta.onlyFor))
+    next({ name: "get-started" });
+  if (userType) {
+    if (
+      to.matched.some((record) => record.meta.notForAuthed) ||
+      to.matched.some(
+        (record) => record.meta.onlyFor && record.meta.onlyFor !== userType
+      )
+    )
+      next(`${userType.toLowerCase()}/profile`);
+  }
   next();
 });
 

@@ -83,7 +83,7 @@ export default class SignIn extends Vue {
     this.$store
       .dispatch(`admin/${AccountActionTypes.login}`, body)
       .then(() => {
-        this.$router.push({ name: "admin-dashboard" });
+        this.$router.push({ name: "admin-profile" });
       })
       .catch(({ response: r }) => {
         const responseError = r.status === 401 ? r.data.message : r.data;
