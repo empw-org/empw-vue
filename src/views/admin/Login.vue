@@ -1,6 +1,6 @@
 <template>
   <div class="gradient-container">
-    <h1 class="page-title">Sign in</h1>
+    <h1 class="page-title">ADMIN - Sign in</h1>
 
     <div class="form-card">
       <!-- SIGN IN FORM -->
