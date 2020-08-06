@@ -177,16 +177,16 @@ router.beforeEach((to, _, next) => {
   const userType = localStorage.getItem("userType");
   if (!userType && to.matched.some((record) => record.meta.onlyFor))
     next({ name: "get-started" });
-  if (userType) {
+  else if (userType) {
     if (
       to.matched.some((record) => record.meta.notForAuthed) ||
       to.matched.some(
         (record) => record.meta.onlyFor && record.meta.onlyFor !== userType
       )
-    )
-      next(`${userType.toLowerCase()}/profile`);
-  }
-  next();
+    ) {
+      next({ name: `${userType.toLowerCase()}-profile` });
+    } else next();
+  } else next();
 });
 
 export default router;
