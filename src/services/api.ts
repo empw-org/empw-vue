@@ -21,9 +21,9 @@ axios.interceptors.response.use(
   },
   function (error) {
     store.commit(GlobalMutationTypes.SET_LOADING, false);
-    const loggedIn = localStorage.getItem("loggedIn");
-    if (loggedIn && error.response?.status === 401) {
-      store.dispatch(`${loggedIn.toLowerCase()}/${AccountActionTypes.logout}`);
+    const userType = localStorage.getItem("userType");
+    if (userType && error.response?.status === 401) {
+      store.dispatch(`${userType.toLowerCase()}/${AccountActionTypes.logout}`);
     }
     return Promise.reject(error);
   }

@@ -12,7 +12,7 @@ export const state = {
 export const mutations = {
   [AdminMutationTypes.SET_ADMIN_TOKEN](state: any, token: string): void {
     localStorage.setItem("adminToken", token);
-    localStorage.setItem("loggedIn", "ADMIN");
+    localStorage.setItem("userType", "ADMIN");
     state.token = token;
     Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   },
@@ -23,7 +23,7 @@ export const mutations = {
   [AdminMutationTypes.CLEAR_ADMIN_DATA](): void {
     localStorage.removeItem("adminData");
     localStorage.removeItem("adminToken");
-    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("userType");
     location.reload(); // cleares any data saved in the state
   },
 };

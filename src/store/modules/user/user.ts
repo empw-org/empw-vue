@@ -13,7 +13,7 @@ export const state = {
 export const mutations = {
   [UserMutationTypes.SET_USER_TOKEN](state: any, token: string): void {
     localStorage.setItem("userToken", token);
-    localStorage.setItem("loggedIn", "USER");
+    localStorage.setItem("userType", "USER");
     state.token = token;
     Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   },
@@ -24,7 +24,7 @@ export const mutations = {
   [UserMutationTypes.CLEAR_USER_DATA](): void {
     localStorage.removeItem("userData");
     localStorage.removeItem("userToken");
-    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("userType");
     location.reload(); // cleares any data saved in the state
   },
 };

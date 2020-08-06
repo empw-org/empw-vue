@@ -15,8 +15,8 @@ new Vue({
   store,
   created() {
     // TODO: refactor!!!
-    const loggedIn = localStorage.getItem("loggedIn");
-    if (loggedIn === "COMPANY") {
+    const userType = localStorage.getItem("userType");
+    if (userType === "COMPANY") {
       const companyData = localStorage.getItem("companyData");
       const companyToken = localStorage.getItem("companyToken");
       if (companyData && companyToken) {
@@ -29,7 +29,7 @@ new Vue({
           companyToken
         );
       }
-    } else if (loggedIn === "USER") {
+    } else if (userType === "USER") {
       const userData = localStorage.getItem("userData");
       const userToken = localStorage.getItem("userToken");
       if (userData && userToken) {
@@ -42,7 +42,7 @@ new Vue({
           userToken
         );
       }
-    } else if (loggedIn === "ADMIN") {
+    } else if (userType === "ADMIN") {
       const adminData = localStorage.getItem("adminData");
       const adminToken = localStorage.getItem("adminToken");
       if (adminData && adminToken) {
