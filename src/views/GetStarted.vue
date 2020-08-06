@@ -1,6 +1,6 @@
 <template>
   <div class="gradient-container">
-    <div class="form-card">
+    <div class="form-card" v-on:click.ctrl.alt.prevent="goToAdmin">
       <router-link class="full-width" :to="{ name: 'user-signin' }">
         <GradientButton>Contiue as User</GradientButton>
       </router-link>
@@ -26,7 +26,11 @@ import GradientButton from "@/components/GradientButton.vue";
     GradientButton,
   },
 })
-export default class GetStarted extends Vue {}
+export default class GetStarted extends Vue {
+  goToAdmin(): void {
+    this.$router.push({ name: "admin-signin" });
+  }
+}
 </script>
 
 <style scoped lang="less">
