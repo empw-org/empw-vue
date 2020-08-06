@@ -2,7 +2,7 @@
   <div>
     <h1 class="ui center aligned icon header">
       <i class="circular tint icon"></i>
-      WaterOrders
+      Water Orders
     </h1>
     <div class="dimmable">
       <div class="ui active inverted dimmer" v-if="isLoading">
