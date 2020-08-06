@@ -58,6 +58,9 @@ export default {
     createNewWaterOrder(body: any) {
       return axios.post("/water_orders", body);
     },
+    getConsumptionReports() {
+      return axios.get("/consumption_reports");
+    },
   },
   companies: {
     login(body: any) {

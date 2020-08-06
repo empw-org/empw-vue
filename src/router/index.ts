@@ -11,6 +11,7 @@ import UserProfile from "@/views/user/Profile.vue";
 import UserWaterOrders from "@/views/user/profile-views/WaterOrders.vue";
 import UserNewWaterOrder from "@/views/user/profile-views/NewWaterOrder.vue";
 import UserEditProfile from "@/views/user/profile-views/EditProfile.vue";
+import UserConsumptionReports from "@/views/user/profile-views/ConsumptionReports.vue";
 import CompanySignIn from "@/views/company/SignIn.vue";
 import CompanySignUp from "@/views/company/SignUp.vue";
 import CompanyProfile from "@/views/company/Profile.vue";
@@ -114,6 +115,11 @@ const routes = [
         path: "water-orders",
         name: "user-water-orders",
         component: UserWaterOrders,
+      },
+      {
+        path: "consumption-reports",
+        name: "user-consumption-reports",
+        component: UserConsumptionReports,
       },
       {
         path: "edit-profile",

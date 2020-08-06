@@ -28,6 +28,15 @@
           </li>
 
           <li>
+            <router-link :to="{ name: 'user-consumption-reports' }">
+              <ProfileNavigationItem path="consumption-reports">
+                <i slot="icon" class="chart bar icon"></i>
+                <span slot="text">Consumption Reports</span>
+              </ProfileNavigationItem>
+            </router-link>
+          </li>
+
+          <li>
             <router-link :to="{ name: 'user-edit-profile' }">
               <ProfileNavigationItem path="edit-profile">
                 <i slot="icon" class="edit icon"></i>
