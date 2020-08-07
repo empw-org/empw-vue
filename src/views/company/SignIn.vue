@@ -7,7 +7,7 @@
       <form id="sign-in-form" @submit.prevent="onLogin">
         <ValidationObserver v-slot="{ invalid }">
           <div class="form-group">
-            <label>Your email / phone number</label>
+            <label>Company email / phone number</label>
             <ValidationProvider name="Email or Phone" v-slot="{ errors }">
               <input
                 v-model="emailOrPhone"
@@ -21,7 +21,7 @@
           </div>
 
           <div class="form-group">
-            <label>Your password</label>
+            <label>Company password</label>
             <ValidationProvider name="Password" v-slot="{ errors }">
               <input
                 v-model="password"
