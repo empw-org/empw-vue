@@ -3,22 +3,37 @@
     <h1 class="page-title">Sign in</h1>
 
     <div class="form-card">
-      <div class="errors-array-response" v-if="responseError.length">
-        <ValidationError> * {{ responseError }} </ValidationError>
-      </div>
-
       <!-- FORGET PASSWORD FORM -->
       <form
         id="forget-password-form"
         @submit.prevent="onResetPassword"
         v-if="isForgetPassword"
       >
-        <ValidationObserver v-slot="{ invalid }">
+        <div
+          v-if="forgetPasswordResponse.length"
+          class="ui equal width centered grid"
+        >
+          <div class="row">
+            <img
+              src="@/assets/images/email-sent.svg"
+              alt="email sent"
+              width="80%"
+            />
+          </div>
+          <div class="row">
+            <p class="ui large message">{{ forgetPasswordResponse }}</p>
+          </div>
+
+          <span class="custom-link" @click="backToSignin">
+            Back to Sign in</span
+          >
+        </div>
+        <ValidationObserver v-slot="{ invalid }" v-else>
           <div class="form-group">
             <label>Your email</label>
             <ValidationProvider name="Email" v-slot="{ errors }">
               <input
-                v-model="email"
+                v-model="emailOrPhone"
                 name="email"
                 type="email"
                 required
@@ -27,15 +42,15 @@
               <ValidationError> {{ errors[0] }} </ValidationError>
             </ValidationProvider>
 
-            <span
-              class="forget-password-link"
-              @click="isForgetPassword = false"
-            >
+            <span class="custom-link" @click="isForgetPassword = false">
               Login with your password?
             </span>
           </div>
 
-          <GradientButton type="submit" :disabled="invalid" :isLoading="loading"
+          <GradientButton
+            type="submit"
+            :disabled="invalid"
+            :isLoading="isLoading"
             >Reset password</GradientButton
           >
         </ValidationObserver>
@@ -56,7 +71,7 @@
               />
               <ValidationError> {{ errors[0] }} </ValidationError>
             </ValidationProvider>
-            <span class="forget-password-link" @click="isForgetPassword = true">
+            <span class="custom-link" @click="isForgetPassword = true">
               Forget your password?
             </span>
           </div>
@@ -117,11 +132,15 @@ extend("required", required);
   computed: mapState(["isLoading"]),
 })
 export default class SignIn extends Vue {
-  email = "";
   emailOrPhone = "";
   password = "";
   isForgetPassword = false;
-  responseError = "";
+  forgetPasswordResponse = "";
+
+  backToSignin(): void {
+    this.isForgetPassword = false;
+    this.forgetPasswordResponse = "";
+  }
 
   onLogin(): void {
     const { emailOrPhone, password } = this;
@@ -139,11 +158,10 @@ export default class SignIn extends Vue {
   }
 
   onResetPassword(): void {
-    const { email } = this;
     api.users
-      .resetPassword({ email })
+      .resetPassword({ email: this.emailOrPhone })
       .then((r) => {
-        console.log(r.data);
+        this.forgetPasswordResponse = r.data.message;
       })
       .catch(({ response: r }) => {
         const responseError = r.status === 401 ? r.data.message : r.data;
@@ -196,16 +214,15 @@ export default class SignIn extends Vue {
         }
       }
     }
-
-    .forget-password-link {
-      text-decoration: none;
-      font-size: 9pt;
-      display: block;
-      text-align: right;
-      margin-top: 10px;
-      color: @dark-gray;
-      cursor: pointer;
-    }
+  }
+  .custom-link {
+    text-decoration: none;
+    font-size: 9pt;
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+    color: @dark-gray;
+    cursor: pointer;
   }
 
   .no-account-text {
