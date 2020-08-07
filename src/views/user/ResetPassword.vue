@@ -3,10 +3,6 @@
     <h1 class="page-title">Reset Password</h1>
 
     <div class="form-card">
-      <div class="errors-array-response" v-if="responseError.length">
-        <ValidationError> * {{ responseError }} </ValidationError>
-      </div>
-
       <!-- RESET PASSWORD FORM -->
       <form id="reset-password-form" v-if="token" @submit.prevent="onSubmit">
         <ValidationObserver v-slot="{ invalid }">
@@ -43,12 +39,11 @@
           <GradientButton
             type="submit"
             :disabled="invalid"
-            :isLoading="loading"
+            :isLoading="isLoading"
           >
             Reset password
           </GradientButton>
         </ValidationObserver>
-        <div>{{ response }}</div>
       </form>
 
       <div class="no-token" v-else>
@@ -65,16 +60,11 @@ import { required, min } from "vee-validate/dist/rules";
 import { Component, Vue } from "vue-property-decorator";
 import GradientButton from "@/components/GradientButton.vue";
 import ValidationError from "@/components/ValidationError.vue";
+import { mapState } from "vuex";
 
-extend("min", {
-  ...min,
-  message: "{_field_} must be at least {length} characters",
-});
+extend("min", min);
 
-extend("required", {
-  ...required,
-  message: "{_field_} is required",
-});
+extend("required", required);
 
 extend("password", {
   params: ["target"],
@@ -91,29 +81,28 @@ extend("password", {
     GradientButton,
     ValidationError,
   },
+  computed: mapState(["isLoading"]),
 })
 export default class ResetPassword extends Vue {
   password = "";
   passwordConfirmation = "";
-  responseError = "";
-  errors = "";
-  state = "";
-  response = "";
-  loading = false;
   token = this.$route.query.token;
 
   onSubmit(): void {
     const { token, password } = this;
-    this.loading = true;
     api.users
       .changePassword({ token, password })
       .then((r) => {
-        console.log(r);
-        return r.data;
+        (this as any)
+          .$swal("Password Changed!", r.data.message, "success")
+          .finally(() => {
+            this.$router.push({ name: "user-signin" });
+          });
       })
-      .then(console.log)
-      .catch(console.error)
-      .finally(() => (this.loading = false));
+      .catch(({ response: r }) => {
+        const responseError = r.status === 401 ? r.data.message : r.data;
+        (this as any).$swal("We are sorry!", responseError, "error");
+      });
   }
 }
 </script>
