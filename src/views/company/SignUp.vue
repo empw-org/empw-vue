@@ -14,7 +14,7 @@
         <ValidationObserver v-slot="{ invalid }">
           <div class="sign-up-fields-divisor">
             <div class="form-group">
-              <label>Your name</label>
+              <label>Company name</label>
               <ValidationProvider name="Name" v-slot="{ errors }">
                 <input
                   v-model="name"
@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-group">
-              <label>Your email</label>
+              <label>Company email</label>
               <ValidationProvider name="Email" v-slot="{ errors }">
                 <input
                   v-model="email"
@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-group">
-              <label>Your phone</label>
+              <label>Company phone</label>
               <ValidationProvider
                 name="Phone"
                 :rules="{ regex: REGEX.PHONE }"
@@ -62,7 +62,7 @@
             </div>
 
             <div class="form-group">
-              <label>Your password</label>
+              <label>Company password</label>
               <ValidationProvider name="Password" v-slot="{ errors }">
                 <input
                   v-model="password"
