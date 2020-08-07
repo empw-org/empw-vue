@@ -3,14 +3,6 @@
     <h1 class="page-title">Sign up</h1>
 
     <div class="form-card">
-      <div class="errors-array-response">
-        <ValidationError v-for="(err, index) in responseErrors" :key="index">
-          * {{ err }}
-        </ValidationError>
-      </div>
-
-      <div>{{ responseMessage }}</div>
-
       <!-- PHONE VERIFICATION FORM -->
       <form
         id="verification-form"
@@ -26,7 +18,7 @@
                 name="verification code"
                 type="text"
                 required
-                placeholder="Enter your verfification code"
+                placeholder="Enter your verification code"
               />
               <ValidationError> {{ errors[0] }} </ValidationError>
             </ValidationProvider>
@@ -34,7 +26,7 @@
               class="submit-button"
               type="submit"
               :disabled="invalid"
-              :isLoading="loading"
+              :isLoading="isLoading"
               >Verify</GradientButton
             >
           </div>
@@ -43,6 +35,11 @@
 
       <!-- SIGNUP FORM -->
       <form id="sign-up-form" @submit.prevent="onSignup" v-else>
+        <div class="errors-array-response">
+          <ValidationError v-for="(err, index) in responseErrors" :key="index">
+            * {{ err }}
+          </ValidationError>
+        </div>
         <ValidationObserver v-slot="{ invalid }">
           <div class="sign-up-fields-divisor">
             <div class="form-group">
@@ -189,6 +186,7 @@ import {
 } from "vee-validate/dist/rules";
 import { mapState } from "vuex";
 import handleValidationErrors from "@/store/handle-validation-errors";
+import { UserMutationTypes } from "@/store/modules/user/mutation-types";
 
 extend("email", email);
 extend("regex", regex);
@@ -217,7 +215,6 @@ export default class SignUp extends Vue {
   salary = "";
   password = "";
   verificationCode = "";
-  responseMessage = "";
   responseErrors: string[] = [];
   successfulSignup = false;
 
@@ -234,10 +231,7 @@ export default class SignUp extends Vue {
 
     api.users
       .signup(body)
-      .then(async (r) => {
-        this.responseMessage = r.data;
-        this.successfulSignup = true;
-      })
+      .then(() => (this.successfulSignup = true))
       .catch(
         (r) => (this.responseErrors = handleValidationErrors(r.response.data))
       );
@@ -249,14 +243,20 @@ export default class SignUp extends Vue {
     api.users
       .verify({ email, phone_number, code, password })
       .then(async (r) => {
-        const json = await r.data;
-        // TODO: save token on succcessfull verification
-        // same logic as successfull signup
-        this.responseMessage = json;
-        console.log(r.status);
-        console.log(json);
+        this.$store.commit(
+          `user/${UserMutationTypes.SET_USER_DATA}`,
+          r.data.user
+        );
+        this.$store.commit(
+          `user/${UserMutationTypes.SET_USER_TOKEN}`,
+          r.data.token
+        );
+        this.$router.push({ name: "user-profile" });
       })
-      .catch(console.error);
+      .catch(({ response: r }) => {
+        const responseError = r.status === 401 ? r.data.message : r.data;
+        (this as any).$swal("We are sorry!", responseError, "error");
+      });
   }
 }
 </script>
