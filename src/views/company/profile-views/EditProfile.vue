@@ -14,11 +14,11 @@
           <div class="ui eight wide column">
             <div class="field">
               <label>Name</label>
-              <input type="email" v-model="companyData.email" />
+              <input type="email" v-model="companyData.name" />
             </div>
             <div class="field">
               <label>E-mail</label>
-              <input type="text" v-model="companyData.name" />
+              <input type="text" v-model="companyData.email" />
             </div>
             <div class="field">
               <label>Password</label>
