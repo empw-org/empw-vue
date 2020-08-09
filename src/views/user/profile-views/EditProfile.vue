@@ -14,11 +14,11 @@
           <div class="ui eight wide column">
             <div class="field">
               <label>Name</label>
-              <input type="email" v-model="userData.name" />
+              <input type="text" v-model="userData.name" />
             </div>
             <div class="field">
               <label>E-mail</label>
-              <input type="text" v-model="userData.email" />
+              <input type="email" v-model="userData.email" />
             </div>
             <div class="field">
               <label>Password</label>
@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="ui six wide column">
-            <div class="ui submit button">Save</div>
+            <button type="submit" class="ui submit button">Save</button>
           </div>
         </div>
       </form>
@@ -52,15 +52,16 @@ import { Component, Vue } from "vue-property-decorator";
 import api from "@/services/api";
 import { mapState } from "vuex";
 import { UserMutationTypes } from "@/store/modules/user/mutation-types";
+import handleValidationErrors from "@/store/handle-validation-errors";
 
 @Component({
   computed: mapState(["isLoading"]),
 })
 export default class UserEditProfile extends Vue {
-  userData = { ...this.$store.state.user.user };
+  userData = {};
   created() {
     api.users.getProfile().then((r) => {
-      this.userData = r.data;
+      this.userData = JSON.parse(JSON.stringify(r.data));
       this.$store.commit(`user/${UserMutationTypes.SET_USER_DATA}`, r.data);
     });
   }
@@ -68,10 +69,13 @@ export default class UserEditProfile extends Vue {
     api.users
       .editProfile(this.userData)
       .then((r) => {
-        console.log(r.data);
         this.$store.commit(`user/${UserMutationTypes.SET_USER_DATA}`, r.data);
       })
-      .catch((e) => console.error(e.toJSON()));
+      .catch((e) => {
+        const errors = handleValidationErrors(e.response.data).join(" ");
+        console.log(errors);
+        (this as any).$swal("Error!", errors, "error");
+      });
   }
 }
 </script>

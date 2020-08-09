@@ -14,11 +14,11 @@
           <div class="ui eight wide column">
             <div class="field">
               <label>Name</label>
-              <input type="email" v-model="companyData.name" />
+              <input type="text" v-model="companyData.name" />
             </div>
             <div class="field">
               <label>E-mail</label>
-              <input type="text" v-model="companyData.email" />
+              <input type="email" v-model="companyData.email" />
             </div>
             <div class="field">
               <label>Password</label>
@@ -44,7 +44,7 @@
             </div>
           </div>
           <div class="ui six wide column">
-            <div class="ui submit button">Save</div>
+            <button type="submit" class="ui submit button">Save</button>
           </div>
         </div>
       </form>
@@ -56,15 +56,16 @@ import { Component, Vue } from "vue-property-decorator";
 import api from "@/services/api";
 import { mapState } from "vuex";
 import { CompanyMutationTypes } from "@/store/modules/company/mutation-types";
+import handleValidationErrors from "@/store/handle-validation-errors";
 
 @Component({
   computed: mapState(["isLoading"]),
 })
 export default class CompanyEditProfile extends Vue {
-  companyData = { ...this.$store.state.company.company };
+  companyData = {};
   created() {
     api.companies.getProfile().then((r) => {
-      this.companyData = r.data;
+      this.companyData = JSON.parse(JSON.stringify(r.data));
       this.$store.commit(
         `company/${CompanyMutationTypes.SET_COMPANY_DATA}`,
         r.data
@@ -81,7 +82,11 @@ export default class CompanyEditProfile extends Vue {
           r.data
         );
       })
-      .catch((e) => console.error(e.toJSON()));
+      .catch((e) => {
+        const errors = handleValidationErrors(e.response.data).join(" ");
+        console.log(errors);
+        (this as any).$swal("Error!", errors, "error");
+      });
   }
 }
 </script>
