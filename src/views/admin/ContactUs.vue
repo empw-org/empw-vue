@@ -26,7 +26,7 @@
             <td>{{ msg.email }}</td>
             <td>{{ msg.message }}</td>
             <td>{{ msg.from }}</td>
-            <td>{{ msg.created_at }}</td>
+            <td>{{ date(msg.created_at) }}</td>
           </tr>
         </tbody>
 
@@ -38,9 +38,6 @@
                   <i class="left chevron icon"></i>
                 </a>
                 <a class="item">1</a>
-                <a class="item">2</a>
-                <a class="item">3</a>
-                <a class="item">4</a>
                 <a class="icon item">
                   <i class="right chevron icon"></i>
                 </a>
@@ -57,6 +54,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 import api from "@/services/api";
+import moment from "moment";
 
 @Component({
   computed: mapState(["isLoading"]),
@@ -68,6 +66,10 @@ export default class AdminCompanies extends Vue {
     api.admins
       .getContactUsMessages()
       .then((r) => (this.contactUsMessages = r.data));
+  }
+
+  date(date: string) {
+    return moment(date).format("Do MMMM, h:mm a");
   }
 }
 </script>

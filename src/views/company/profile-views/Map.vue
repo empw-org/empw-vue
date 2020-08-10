@@ -15,7 +15,7 @@
         @update:zoom="zoomUpdate"
       >
         <l-tile-layer :url="url" :attribution="attribution" />
-        <l-marker :lat-lng="currentCenter">
+        <l-marker :lat-lng="center">
           <l-tooltip :options="{ permanent: true, interactive: true }">
             <div>
               company location
@@ -59,9 +59,8 @@ export default class CompanyMap extends Vue {
   url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   attribution =
     '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
-  withPopup = latLng(47.41322, -1.219482);
-  companyLocation = this.$store.state.company.company.location;
-  currentCenter = latLng(this.companyLocation[1], this.companyLocation[0]);
+  cmpLocation = this.$store.state.company.company.location;
+  currentCenter = latLng(this.cmpLocation[1], this.cmpLocation[0]);
   center = this.currentCenter;
 
   currentZoom = 11.5;

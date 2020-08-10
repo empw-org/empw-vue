@@ -14,7 +14,7 @@
             <th>ID</th>
             <th>Amount</th>
             <th>Created at</th>
-            <th>Location</th>
+            <th>Company</th>
             <th>State</th>
           </tr>
         </thead>
@@ -23,8 +23,10 @@
           <tr v-for="(waterOrder, index) in waterOrders" :key="index">
             <td>{{ waterOrder._id }}</td>
             <td>{{ waterOrder.amount }}</td>
-            <td>{{ waterOrder.created_at }}</td>
-            <td>{{ waterOrder.location }}</td>
+            <td>{{ date(waterOrder.created_at) }}</td>
+            <td>
+              {{ waterOrder.company ? waterOrder.company.name : "N/A" }}
+            </td>
             <td>
               <div class="ui label" :class="stateColor[waterOrder.state]">
                 {{ waterOrder.state }}
@@ -41,9 +43,6 @@
                   <i class="left chevron icon"></i>
                 </a>
                 <a class="item">1</a>
-                <a class="item">2</a>
-                <a class="item">3</a>
-                <a class="item">4</a>
                 <a class="icon item">
                   <i class="right chevron icon"></i>
                 </a>
@@ -61,6 +60,7 @@ import { Component, Vue } from "vue-property-decorator";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { mapState } from "vuex";
 import api from "@/services/api";
+import moment from "moment";
 
 const stateColor = {
   PENDING: "orange",
@@ -83,6 +83,10 @@ export default class UserWaterOrders extends Vue {
 
   created() {
     api.users.getMyWaterOrders().then((r) => (this.waterOrders = r.data));
+  }
+
+  date(date: string) {
+    return moment(date).format("Do MMMM, h:mm a");
   }
 }
 </script>

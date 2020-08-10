@@ -30,7 +30,7 @@
             <td>{{ `${transporter.car.type} ${transporter.car.model}` }}</td>
             <td>{{ transporter.phone_number }}</td>
             <td>{{ transporter.is_approved }}</td>
-            <td>{{ transporter.created_at }}</td>
+            <td>{{ date(transporter.created_at) }}</td>
             <td>
               <div class="ui center aligned">
                 <button
@@ -59,9 +59,6 @@
                   <i class="left chevron icon"></i>
                 </a>
                 <a class="item">1</a>
-                <a class="item">2</a>
-                <a class="item">3</a>
-                <a class="item">4</a>
                 <a class="icon item">
                   <i class="right chevron icon"></i>
                 </a>
@@ -79,6 +76,7 @@ import { Component, Vue } from "vue-property-decorator";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { mapState } from "vuex";
 import api from "@/services/api";
+import moment from "moment";
 
 @Component({
   components: {
@@ -123,6 +121,10 @@ export default class AdminTransporters extends Vue {
         const error = e.response.data || e.response.statusText;
         (this as any).$swal("Error!", error, "error");
       });
+  }
+
+  date(date: string) {
+    return moment(date).format("Do MMMM, h:mm a");
   }
 }
 </script>
