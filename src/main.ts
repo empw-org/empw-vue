@@ -7,6 +7,14 @@ import "./vue-swal.js"; // make vue swal available to all components
 import { CompanyMutationTypes } from "@/store/modules/company/mutation-types";
 import { UserMutationTypes } from "@/store/modules/user/mutation-types";
 import { AdminMutationTypes } from "@/store/modules/admin/mutation-types";
+import { localize } from "vee-validate";
+import en from "vee-validate/dist/locale/en.json";
+import { setInteractionMode } from "vee-validate";
+
+localize({ en });
+setInteractionMode("custom", () => ({
+  on: ["change", "input"],
+}));
 
 Vue.config.productionTip = false;
 
