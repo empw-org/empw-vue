@@ -44,7 +44,11 @@
           <div class="sign-up-fields-divisor">
             <div class="form-group">
               <label>Your name</label>
-              <ValidationProvider name="Name" v-slot="{ errors }">
+              <ValidationProvider
+                rules="alpha_spaces"
+                name="Name"
+                v-slot="{ errors }"
+              >
                 <input
                   v-model="name"
                   name="name"
@@ -183,12 +187,16 @@ import {
   required,
   min_value,
   max_value,
+  min,
+  alpha_spaces,
 } from "vee-validate/dist/rules";
 import { mapState } from "vuex";
 import handleValidationErrors from "@/store/handle-validation-errors";
 import { UserMutationTypes } from "@/store/modules/user/mutation-types";
 
 extend("email", email);
+extend("alpha_spaces", alpha_spaces);
+extend("min", min);
 extend("regex", regex);
 extend("length", length);
 extend("digits", digits);
