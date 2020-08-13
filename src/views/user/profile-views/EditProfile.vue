@@ -51,8 +51,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import api from "@/services/api";
 import { mapState } from "vuex";
-import { UserMutationTypes } from "@/store/modules/user/mutation-types";
 import handleValidationErrors from "@/store/handle-validation-errors";
+import { GlobalMutationTypes } from "@/store/mutation-types";
 
 @Component({
   computed: mapState(["isLoading"]),
@@ -62,14 +62,14 @@ export default class UserEditProfile extends Vue {
   created() {
     api.users.getProfile().then((r) => {
       this.userData = JSON.parse(JSON.stringify(r.data));
-      this.$store.commit(`user/${UserMutationTypes.SET_USER_DATA}`, r.data);
+      this.$store.commit(GlobalMutationTypes.SET_LOGIN_DATA, r.data);
     });
   }
   onEditUserProfile() {
     api.users
       .editProfile(this.userData)
       .then((r) => {
-        this.$store.commit(`user/${UserMutationTypes.SET_USER_DATA}`, r.data);
+        this.$store.commit(GlobalMutationTypes.SET_LOGIN_DATA, r.data);
       })
       .catch((e) => {
         const errors = handleValidationErrors(e.response.data).join(" ");

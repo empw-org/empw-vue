@@ -25,6 +25,7 @@ import AdminCompanies from "@/views/admin/Companies.vue";
 import AdminTransporters from "@/views/admin/Transporters.vue";
 import AdminSensors from "@/views/admin/Sensors.vue";
 import AdminContactUs from "@/views/admin/ContactUs.vue";
+import { LocalStorageKeys } from "@/store/localstorage-keys";
 
 Vue.use(VueRouter);
 
@@ -174,17 +175,17 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  const userType = localStorage.getItem("userType");
-  if (!userType && to.matched.some((record) => record.meta.onlyFor))
+  const loginType = localStorage.getItem(LocalStorageKeys.loginType);
+  if (!loginType && to.matched.some((record) => record.meta.onlyFor))
     next({ name: "get-started" });
-  else if (userType) {
+  else if (loginType) {
     if (
       to.matched.some((record) => record.meta.notForAuthed) ||
       to.matched.some(
-        (record) => record.meta.onlyFor && record.meta.onlyFor !== userType
+        (record) => record.meta.onlyFor && record.meta.onlyFor !== loginType
       )
     ) {
-      next({ name: `${userType.toLowerCase()}-profile` });
+      next({ name: `${loginType.toLowerCase()}-profile` });
     } else next();
   } else next();
 });

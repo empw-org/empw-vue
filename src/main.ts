@@ -4,16 +4,15 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./vue-swal.js"; // make vue swal available to all components
-import { CompanyMutationTypes } from "@/store/modules/company/mutation-types";
-import { UserMutationTypes } from "@/store/modules/user/mutation-types";
-import { AdminMutationTypes } from "@/store/modules/admin/mutation-types";
 import { localize } from "vee-validate";
 import en from "vee-validate/dist/locale/en.json";
 import { setInteractionMode } from "vee-validate";
+import { GlobalMutationTypes } from "./store/mutation-types";
+import { LocalStorageKeys } from "./store/localstorage-keys";
 
 localize({ en });
 setInteractionMode("custom", () => ({
-  on: ["change", "input"],
+  on: ["input"],
 }));
 
 Vue.config.productionTip = false;
@@ -22,46 +21,16 @@ new Vue({
   router,
   store,
   created() {
-    // TODO: refactor!!!
-    const userType = localStorage.getItem("userType");
-    if (userType === "COMPANY") {
-      const companyData = localStorage.getItem("companyData");
-      const companyToken = localStorage.getItem("companyToken");
-      if (companyData && companyToken) {
+    const loginType = localStorage.getItem(LocalStorageKeys.loginType);
+    if (loginType) {
+      const loginData = localStorage.getItem(LocalStorageKeys.loginData);
+      const loginToken = localStorage.getItem(LocalStorageKeys.loginToken);
+      if (loginData && loginToken) {
         this.$store.commit(
-          `company/${CompanyMutationTypes.SET_COMPANY_DATA}`,
-          JSON.parse(companyData)
+          GlobalMutationTypes.SET_LOGIN_DATA,
+          JSON.parse(loginData)
         );
-        this.$store.commit(
-          `company/${CompanyMutationTypes.SET_COMPANY_TOKEN}`,
-          companyToken
-        );
-      }
-    } else if (userType === "USER") {
-      const userData = localStorage.getItem("userData");
-      const userToken = localStorage.getItem("userToken");
-      if (userData && userToken) {
-        this.$store.commit(
-          `user/${UserMutationTypes.SET_USER_DATA}`,
-          JSON.parse(userData)
-        );
-        this.$store.commit(
-          `user/${UserMutationTypes.SET_USER_TOKEN}`,
-          userToken
-        );
-      }
-    } else if (userType === "ADMIN") {
-      const adminData = localStorage.getItem("adminData");
-      const adminToken = localStorage.getItem("adminToken");
-      if (adminData && adminToken) {
-        this.$store.commit(
-          `admin/${AdminMutationTypes.SET_ADMIN_DATA}`,
-          JSON.parse(adminData)
-        );
-        this.$store.commit(
-          `admin/${AdminMutationTypes.SET_ADMIN_TOKEN}`,
-          adminToken
-        );
+        this.$store.commit(GlobalMutationTypes.SET_LOGIN_TOKEN, loginToken);
       }
     }
   },

@@ -144,7 +144,7 @@ export default class SignIn extends Vue {
 
   onLogin(): void {
     const { emailOrPhone, password } = this;
-    const body = { email: emailOrPhone, phone: emailOrPhone, password };
+    const body = { email: emailOrPhone, phone_number: emailOrPhone, password };
 
     this.$store
       .dispatch(`user/${AccountActionTypes.login}`, body)

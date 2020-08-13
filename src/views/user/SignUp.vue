@@ -192,7 +192,9 @@ import {
 } from "vee-validate/dist/rules";
 import { mapState } from "vuex";
 import handleValidationErrors from "@/store/handle-validation-errors";
-import { UserMutationTypes } from "@/store/modules/user/mutation-types";
+import { AccountActionTypes } from "@/store/account-action-types";
+import { GlobalMutationTypes } from "@/store/mutation-types";
+import { LoginTypes } from "@/policies/login-types";
 
 extend("email", email);
 extend("alpha_spaces", alpha_spaces);
@@ -236,13 +238,10 @@ export default class SignUp extends Vue {
       salary,
       password,
     };
-
-    api.users
-      .signup(body)
+    this.$store
+      .dispatch(`user/${AccountActionTypes.signup}`, body)
       .then(() => (this.successfulSignup = true))
-      .catch(
-        (r) => (this.responseErrors = handleValidationErrors(r.response.data))
-      );
+      .catch((errs) => (this.responseErrors = errs));
   }
 
   onVerify(): void {
@@ -251,14 +250,9 @@ export default class SignUp extends Vue {
     api.users
       .verify({ email, phone_number, code, password })
       .then(async (r) => {
-        this.$store.commit(
-          `user/${UserMutationTypes.SET_USER_DATA}`,
-          r.data.user
-        );
-        this.$store.commit(
-          `user/${UserMutationTypes.SET_USER_TOKEN}`,
-          r.data.token
-        );
+        this.$store.commit(GlobalMutationTypes.SET_LOGIN_DATA, r.data.user);
+        this.$store.commit(GlobalMutationTypes.SET_LOGIN_TOKEN, r.data.token);
+        this.$store.commit(GlobalMutationTypes.SET_USER_TYPE, LoginTypes.USER);
         this.$router.push({ name: "user-profile" });
       })
       .catch(({ response: r }) => {

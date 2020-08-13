@@ -72,7 +72,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { mapState } from "vuex";
-import { AccountActionTypes } from "@/store/account-action-types";
 import api from "@/services/api";
 import moment from "moment";
 
@@ -88,7 +87,7 @@ const stateColor = {
   components: {
     ProfileNavigationItem,
   },
-  computed: { ...mapState("company", ["company"]), ...mapState(["isLoading"]) },
+  computed: mapState(["isLoading"]),
 })
 export default class CompanyWaterOrders extends Vue {
   waterOrders = [] as any;

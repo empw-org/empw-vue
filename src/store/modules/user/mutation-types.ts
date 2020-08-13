@@ -1,5 +1,0 @@
-export enum UserMutationTypes {
-  SET_USER_DATA = "SET_USER_DATA",
-  SET_USER_TOKEN = "SET_USER_TOKEN",
-  CLEAR_USER_DATA = "CLEAR_USER_DATA",
-}

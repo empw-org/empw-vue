@@ -31,8 +31,6 @@
 import "leaflet/dist/leaflet.css";
 
 import { Component, Vue } from "vue-property-decorator";
-import api from "@/services/api";
-import { mapState } from "vuex";
 
 import { latLng, Icon } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
@@ -52,7 +50,6 @@ Icon.Default.mergeOptions({
 
 @Component({
   components: { LMap, LTileLayer, LMarker, LPopup, LTooltip },
-  computed: mapState("company", ["company"]),
 })
 export default class CompanyMap extends Vue {
   zoom = 15;

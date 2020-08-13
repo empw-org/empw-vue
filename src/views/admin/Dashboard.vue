@@ -4,7 +4,7 @@
       <div class="info-section">
         <i class="user icon"></i>
         <h2>Admin</h2>
-        <p>{{ admin.email }}</p>
+        <p>{{ loginData.email }}</p>
       </div>
 
       <div class="navigation-section">
@@ -75,12 +75,11 @@ import { mapState } from "vuex";
   components: {
     ProfileNavigationItem,
   },
-  computed: mapState("admin", ["admin"]),
+  computed: mapState(["loginData"]),
 })
 export default class AdminDashboard extends Vue {
   onSignOut(): void {
-    this.$store.dispatch(`admin/${AccountActionTypes.logout}`);
-    this.$router.push("/");
+    this.$store.dispatch(AccountActionTypes.logout);
   }
 
   get navigationNotSelected(): boolean {

@@ -3,8 +3,8 @@
     <div class="profile-info-and-navigation">
       <div class="info-section">
         <i class="user icon"></i>
-        <h2>{{ user.name }}</h2>
-        <p>{{ user.email }}</p>
+        <h2>{{ loginData.name }}</h2>
+        <p>{{ loginData.email }}</p>
       </div>
 
       <div class="navigation-section">
@@ -75,12 +75,11 @@ import { AccountActionTypes } from "@/store/account-action-types";
   components: {
     ProfileNavigationItem,
   },
-  computed: mapState("user", ["user"]),
+  computed: mapState(["loginData"]),
 })
 export default class Profile extends Vue {
   onSignOut(): void {
-    this.$store.dispatch(`user/${AccountActionTypes.logout}`);
-    this.$router.push("/");
+    this.$store.dispatch(AccountActionTypes.logout);
   }
 
   get navigationNotSelected(): boolean {

@@ -55,8 +55,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import api from "@/services/api";
 import { mapState } from "vuex";
-import { CompanyMutationTypes } from "@/store/modules/company/mutation-types";
 import handleValidationErrors from "@/store/handle-validation-errors";
+import { GlobalMutationTypes } from "@/store/mutation-types";
 
 @Component({
   computed: mapState(["isLoading"]),
@@ -66,10 +66,7 @@ export default class CompanyEditProfile extends Vue {
   created() {
     api.companies.getProfile().then((r) => {
       this.companyData = JSON.parse(JSON.stringify(r.data));
-      this.$store.commit(
-        `company/${CompanyMutationTypes.SET_COMPANY_DATA}`,
-        r.data
-      );
+      this.$store.commit(GlobalMutationTypes.SET_LOGIN_DATA, r.data);
     });
   }
   onEditCompanyProfile() {
@@ -77,10 +74,7 @@ export default class CompanyEditProfile extends Vue {
       .editProfile(this.companyData)
       .then((r) => {
         console.log(r.data);
-        this.$store.commit(
-          `company/${CompanyMutationTypes.SET_COMPANY_DATA}`,
-          r.data
-        );
+        this.$store.commit(GlobalMutationTypes.SET_LOGIN_DATA, r.data);
       })
       .catch((e) => {
         const errors = handleValidationErrors(e.response.data).join(" ");
