@@ -28,16 +28,14 @@
 </template>
 
 <script lang="ts">
-import "leaflet/dist/leaflet.css";
-
 import { Component, Vue } from "vue-property-decorator";
 
-import { latLng, Icon } from "leaflet";
+import { latLng, Icon, LatLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
 import "leaflet/dist/leaflet.css";
 
 type D = Icon.Default & {
-  _getIconUrl: string;
+  _getIconUrl: string | undefined;
 };
 
 delete (Icon.Default.prototype as D)._getIconUrl;
@@ -56,7 +54,7 @@ export default class CompanyMap extends Vue {
   url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   attribution =
     '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
-  cmpLocation = this.$store.state.company.company.location;
+  cmpLocation = this.$store.state.loginData.location;
   currentCenter = latLng(this.cmpLocation[1], this.cmpLocation[0]);
   center = this.currentCenter;
 
@@ -65,10 +63,10 @@ export default class CompanyMap extends Vue {
     zoomSnap: 0.5,
   };
 
-  zoomUpdate(zoom: any) {
+  zoomUpdate(zoom: number): void {
     this.currentZoom = zoom;
   }
-  centerUpdate(center: any) {
+  centerUpdate(center: LatLng): void {
     this.currentCenter = center;
   }
 }
