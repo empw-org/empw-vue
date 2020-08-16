@@ -35,7 +35,7 @@ import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
 import "leaflet/dist/leaflet.css";
 
 type D = Icon.Default & {
-  _getIconUrl: string | undefined;
+  _getIconUrl?: string;
 };
 
 delete (Icon.Default.prototype as D)._getIconUrl;
