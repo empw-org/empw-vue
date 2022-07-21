@@ -13,7 +13,7 @@
     "core-js": "^3.6.5",
     "leaflet": "^1.6.0",
     "less-loader": "^6.2.0",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "vee-validate": "^3.3.9",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1",
