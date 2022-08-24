@@ -4,7 +4,7 @@ import axios from "axios";
 import { AccountActionTypes } from "@/store/account-action-types";
 import { LocalStorageKeys } from "@/store/localstorage-keys";
 
-const BASE_URL = "https://api-empw.herokuapp.com";
+const BASE_URL = "https://api.empw.tk";
 // const BASE_URL = "http://localhost:3000";
 
 axios.defaults.baseURL = BASE_URL;
